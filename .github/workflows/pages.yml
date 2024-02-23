@@ -5,6 +5,8 @@ on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths:
+      - "docs/**"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,9 +27,18 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    run:
+      working-directory: docs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+          cache-version: 0
+          working-directory: '${{ github.workspace }}/docs'
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Build with Jekyll
@@ -37,6 +48,8 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: "docs/_site/"
 
   # Deployment job
   deploy:
