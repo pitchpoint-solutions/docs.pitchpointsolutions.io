@@ -27,9 +27,6 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: docs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,18 +36,16 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
           cache-version: 0
-          working-directory: '${{ github.workspace }}/docs'
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Build with Jekyll
+        # Outputs to the './_site' directory by default
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
         uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: "docs/_site/"
 
   # Deployment job
   deploy:
