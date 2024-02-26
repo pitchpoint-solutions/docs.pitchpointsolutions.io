@@ -7,7 +7,7 @@ nav_order: 4
 # Webhook Endpoint Implementation Guide
 
 ## Overview
-Your system needs to implement a webhook endpoint to receive real-time notifications from our services. Each webhook message includes several headers providing additional context about the event.
+Your system needs to implement a webhook endpoint to receive real-time notifications from Pitchpoint services. Each webhook message includes several headers providing additional context about the event.
 
 ## Registering an Endpoint
 Contact your account representative to register your webhook endpoint. You will need to provide the following information:
@@ -41,73 +41,6 @@ See the [Authentication Guide](/webhooks/authentication)
 - If your endpoint returns a status code >= `500`, the data will be resent using an exponential backoff algorithm.
 
 ## Example Code
-Here's a simple example in Python to demonstrate how to verify and handle a webhook:
+See the [Authentication Guide](/webhooks/authentication) for a simple example in Python to demonstrate how to verify and handle a webhook:
 
-```python
-import hashlib
-from authlib.jose import jwt
-from authlib.oidc.core import CodeIDToken
-import requests
-from cachetools import TTLCache
-from flask import Flask
-from flask import request
 
-app = Flask(__name__)
-
-# Trusted OIDC issuers
-trusted_issuers = {
-    'https://securetoken.google.com/pps-local-dev-376022': ['pps-local-dev-376022'],
-    'https://issuer2.example.com': None,
-    # Add more trusted issuers as needed
-}
-
-# JWKS Cache setup - cache will expire after 3600 seconds (1 hour)
-jwks_cache = TTLCache(maxsize=10, ttl=3600)
-
-def fetch_jwks(issuer):
-    if issuer not in trusted_issuers:
-        raise ValueError("Issuer not trusted")
-
-    if issuer not in jwks_cache:
-        # Fetch OpenID Configuration
-        config_url = f'{issuer}/.well-known/openid-configuration'
-        oidc_config = requests.get(config_url).json()
-
-        # Fetch JWKS
-        jwks_url = oidc_config['jwks_uri']
-        jwks_cache[issuer] = requests.get(jwks_url).json()
-
-    return jwks_cache[issuer]
-
-def verify_id_token(data, secret, id_token):
-    # JWT Token to validate
-    
-    # Decode token without verification to extract issuer
-    unverified_claims = jwt.decode(id_token, options={"verify_signature": False})
-    issuer = unverified_claims.get('iss')
-    
-    if not issuer:
-        raise ValueError("Issuer claim not found in JWT")
-    
-    # Fetch JWKS for the issuer
-    jwks = fetch_jwks(issuer)
-    
-    # Decode and validate the token
-    claims_options = {'iss': {'essential': True, 'value': issuer}, 'aud': {'essential': True, 'value': trusted_issuers[issuer]}, }
-    decoded = jwt.decode(id_token, jwks, claims_options=claims_options)
-    
-    return decoded
-
-@app.route('/', methods=['POST'])
-def hello_world():
-    authorization_header = request.headers['Authorization']
-    a, id_token = authorization_header.split(maxsplit=1)
-    
-    try{
-        jwt_claims = verify_id_token(id_token)
-        print("Webhook verified")
-        return 200
-    } catch (ValueError){
-        return 403
-    }
-```

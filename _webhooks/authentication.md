@@ -6,60 +6,46 @@ nav_order: 4
 
 # Webhook Authentication Guide
 
+For security purposes, Ptichpoint highly recommends that you validate the authenticity of the webhook event before processing.
+
+If you are unfamiliar with JWTs, view [JWT Primer](/webhooks/jwt) for more details. 
+
 
 ### Verifying Webhook Authenticity
-A JWT in the Authorization header of the request allows you to validate that the request originated from the pointservies platform. The JWT includes claims and a signature.
+In Pitchpoint, the JWT to be validated will come in the HTTP Request as a "Authorization" header.   
 
-The JWT is an [OpenIDConnect JWT](https://openid.net/specs/draft-jones-json-web-token-07.html) that consists of a header, claim set, and signature. The webhook service encodes the JWT as a base64 string with period delimiters.
-
-For example, the following authorization header includes an encoded JWT:
+For example:
 
 ```
 "Authorization" : "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImExODE4ZjQ0ODk0MjI1ZjQ2MWQyMmI1NjA4NDcyMDM3MTc2MGY1OWIiLCJ0eXAiOiJKV1QifQ.eyJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZW1haWwiOiJ1c2VyQHN5c3RlbS5jb20iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHBzLWxvY2FsLWRldi0zNzYwMjIiLCJhdWQiOiJwcHMtbG9jYWwtZGV2LTM3NjAyMiIsImF1dGhfdGltZSI6MTcwODcxNTYwMiwidXNlcl9pZCI6InhwcHN8VWEiLCJzdWIiOiJ4cHBzfFVhIiwiaWF0IjoxNzA4NzE1NjAyLCJleHAiOjE3MDg3MTkyMDIsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnt9LCJzaWduX2luX3Byb3ZpZGVyIjoiY3VzdG9tIn19.VGRsiUyxjld3B2KfOsvl8wT6LdTqnG0Z5nMR4sL8qmZUrTotRbTWnFTBp6l-RW_g4teKE2_QKuDQEpu3GYBpDtZw_AmdwjvkLVlqg_2vFoSRPnLDKCkBxsnoDp9nkG8q1opkToE8SbxsBprhiHWT4GZX8_YbPLjmb7JaxvGJJoO35J5354OjiSF6yQez0uL3F5yvbkb8MJl25hvD1GKe6lSurojXQFWHsMO7OmFem8qVPO_LSLOjXWn7LyjGfeCuXwOrFN-flkUoALt6ZV3zOYvXMjQ3OO3uSZffdq8eZkmbIdZE8tJ2yLpGUGrJICOqnVgY5fdmUGUc3C7j78oW7w","refresh_token":"AMf-vBzjizyIKhWV2b0Aa2geUrXCpvzHDCw9QQUKuZalC-IUGYtfxo6YPH-RD-l9Lkqe82Thn34r2Lz-quE0pUBcheVUBkVieMjsyMUBeTUceTfRVKnf_K_ziN_HzkP-tqsbFCu-iUT1oBBNwCyCBbCtaJXQXji5gVXGwIOYIAScGnEklqYeB3KF1i45dqynyOCnBFwe2Y_PYbTI4vX6e_OlYjclvquiCilBgTaS8GFTbcvoP_L3-vs" 
 ```
 
-The header and claim set are JSON strings. Once decoded, they take the following form:
+The first part `Bearer` can be discarded.  The send part (`eyJhbGc....voP_L3-vs`) is the JWT token to be validated. 
 
-```json
-{
-  "alg": "RS256",
-  "kid": "a1818f44894225f461d22b56084720371760f59b",
-  "typ": "JWT"
-}
+### Validation 
+When validating the JWT, key points to validate are:  
+* the issuer is a issuer that you expect 
+* the audience is an audience that you expect for that issuer 
+* the token is not expired (`exp`) 
+* the signature is valid
 
-{
-  "email_verified": true,
-  "email": "user@system.com",
-  "iss": "https://securetoken.google.com/pps-local-dev-376022",
-  "aud": "pps-local-dev-376022",
-  "auth_time": 1708715602,
-  "user_id": "xpps|Ua",
-  "sub": "xpps|Ua",
-  "iat": 1708715602,
-  "exp": 1708719202,
-  "firebase": {
-    "identities": {},
-    "sign_in_provider": "custom"
-  }
-}
-```  
+If any of the above points are invalid, your service should return a `403 Forbidden` status code.
 
-When validating a JWT from an OpenID Connect (OIDC) compliant issuer, it's efficient to cache the JWKS (JSON Web Key Set) and refresh it at a set interval, such as hourly, to reduce network overhead and improve performance.
 
-## Prerequisites
+### Also, keep in mind: 
+A JWKS (JSON Web Key Set) is not stagnant and is periodically updated.  Therefore, to reduce network overhead and improve performance, you should cache the results and refresh it periodically. (Suggested: hourly)  
+
+## Sample Python Implementation
+### Prerequisites
 - JWT token to validate.
 - `Authlib` and `cachetools` libraries installed in your Python environment. Install them via `pip install Authlib cachetools`.
 
-## Caching JWKS
+### Caching JWKS
 To avoid fetching the JWKS from the issuer every time a token needs to be validated, implement caching with a timed expiration.
 
-## Validating the JWT
-If the token is expired, the issuer is not in the trusted list or the audience is not valid for the trusted issuer, the `jwt.decode` method will raise an exception. Once this exception is raised, your endpoint should return a `403` status code without processing the body of the webhook.
+### Validating the JWT
+If (the token is expired), (the issuer is not in the trusted list) or (the audience is not valid for the trusted issuer), the `jwt.decode` method will raise an exception. Once this exception is raised, your endpoint should return a `403` status code without processing the body of the webhook.
 
-### Responding to Webhooks
-- Your endpoint should respond with a `200 OK` status code after successfully processing the webhook.
-- If your endpoint is unable to authorize the webhook, respond with a `403 Forbidden` status code.
-- If your endpoint is unable to handle the webhook, respond with an appropriate error code (e.g., `500 Internal Server Error`).
 
 ## Example Code
 Here's a simple example in Python to demonstrate how to verify and handle a webhook:
@@ -127,6 +113,7 @@ def hello_world():
     try{
         jwt_claims = verify_id_token(id_token)
         print("Webhook verified")
+        # do more processing 
         return 200
     } catch (ValueError){
         return 403
