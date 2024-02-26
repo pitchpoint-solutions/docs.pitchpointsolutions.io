@@ -7,7 +7,7 @@ nav_order: 4
 # Webhook Endpoint Implementation Guide
 
 ## Overview
-Your system needs to implement a webhook endpoint to receive real-time notifications from our service. Each webhook message includes several headers providing additional context about the event.
+Your system needs to implement a webhook endpoint to receive real-time notifications from our services. Each webhook message includes several headers providing additional context about the event.
 
 ## Webhook Message Headers
 When your endpoint receives a webhook, it will contain the following headers:
@@ -22,14 +22,15 @@ When your endpoint receives a webhook, it will contain the following headers:
 See the [Authentication Guide](/webhooks/authentication)
 
 ### Processing Webhook Events
-- Parse the webhook body to retrieve the event data.
 - Use the `X-Pps-Topic` header to determine the type of event and process accordingly.
 - Check the `X-Pps-Webhook-Id` to avoid processing duplicate events.
+- Parse the webhook body to retrieve the event data.
 
 ### Responding to Webhooks
 - Your endpoint should respond with a `200 OK` status code after successfully processing the webhook.
 - If your endpoint is unable to authorize the webhook, respond with a `403 Forbidden` status code.
 - If your endpoint is unable to handle the webhook, respond with an appropriate error code (e.g., `500 Internal Server Error`).
+- If your endpoint returns a status code >= `500`, the data will be resent using an exponential backoff algorithm.
 
 ## Example Code
 Here's a simple example in Python to demonstrate how to verify and handle a webhook:
