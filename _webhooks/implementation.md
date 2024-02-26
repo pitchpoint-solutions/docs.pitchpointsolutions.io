@@ -9,10 +9,18 @@ nav_order: 4
 ## Overview
 Your system needs to implement a webhook endpoint to receive real-time notifications from our services. Each webhook message includes several headers providing additional context about the event.
 
+## Registering an Endpoint
+Contact your account representative to register your webhook endpoint. You will need to provide the following information:
+- **Endpoint URL**: The URL where your system will receive webhook events.
+- **Webhook Topics**: The types of events you want to receive (e.g., `orders/placed`, `orders/updated`).
+- **Webhook Sub Topics**: The subtypes of events you want to receive (e.g., `product:adv/adv-120`, `product:cdv/cdv-120`).
+- **Tenant ID**: The unique identifier for the organizational unit that will generate the events.
+
 ## Webhook Message Headers
 When your endpoint receives a webhook, it will contain the following headers:
 
 - **X-Pps-Topic**: The name of the webhook event (e.g., `orders/placed`).
+- **X-Pps-Sub-Topic**: The subtype of the webhook event (e.g., `product:adv/adv-120`).
 - **X-Pps-Tenant-Id**: The unique identifier for the organizational unit that generated the event (e.g., `OU1243`).
 - **X-Pps-Webhook-Id**: A unique identifier for the webhook event (e.g., `279e4e55-dfa0-4e04-b717-148ae547ab7d`). Your endpoint might receive the same webhook event more than once; use this ID to detect duplicates.
 - **X-Pps-Triggered-At**: The UTC timestamp when the event was triggered (e.g., `2024-01-1T10:00:00.7777748Z`).
