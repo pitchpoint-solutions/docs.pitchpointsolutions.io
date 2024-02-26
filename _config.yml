@@ -8,6 +8,7 @@ plugins:
   - jekyll-default-layout
 
 logo: "/assets/images/pitchpoint-logo-2x.png"
+favicon_ico: "/assets/images/favicon.ico"
 
 search_enabled: true
 
