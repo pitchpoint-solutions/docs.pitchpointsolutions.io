@@ -24,10 +24,10 @@ The first part `Bearer` can be ignored.  The send part (`eyJhbGc....j78oW7w`) is
 
 ### Validation 
 When validating the JWT, key points to validate are:  
-* the issuer (`iss`) is a issuer that you expect 
-* the audience (`aud`) is an audience that you expect for that issuer 
-* the token is not expired (`exp`) 
-* the signature is valid
+- the issuer (`iss`) is a issuer that you should expect (value provided by your account representative) 
+- the audience (`aud`) is an audience that you expect for that issuer (value provided by your account representative)
+- the token is not expired (`exp`) 
+- the signature is valid
 
 If any of the above points are invalid, your service should return a `403 Forbidden` status code.
 

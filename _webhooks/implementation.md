@@ -16,6 +16,8 @@ Contact your account representative to register your webhook endpoint. You will 
 - **Webhook Sub Topics**: The subtypes of events you want to receive (e.g., `product:adv/adv-120`, `product:cdv/cdv-120`).
 - **Tenant ID**: The unique identifier for the organizational unit that will generate the events.
 
+You should receive from your account representative the expected issuer (`iss`) and audience (`aud`) that should be used during the webhook validation.
+
 ## Webhook Message Headers
 When your endpoint receives a webhook, it will contain the following headers:
 
