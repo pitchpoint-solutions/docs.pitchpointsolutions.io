@@ -20,12 +20,12 @@ For example:
 "Authorization" : "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImExODE4ZjQ0ODk0MjI1ZjQ2MWQyMmI1NjA4NDcyMDM3MTc2MGY1OWIiLCJ0eXAiOiJKV1QifQ.eyJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZW1haWwiOiJ1c2VyQHN5c3RlbS5jb20iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHBzLWxvY2FsLWRldi0zNzYwMjIiLCJhdWQiOiJwcHMtbG9jYWwtZGV2LTM3NjAyMiIsImF1dGhfdGltZSI6MTcwODcxNTYwMiwidXNlcl9pZCI6InhwcHN8VWEiLCJzdWIiOiJ4cHBzfFVhIiwiaWF0IjoxNzA4NzE1NjAyLCJleHAiOjE3MDg3MTkyMDIsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnt9LCJzaWduX2luX3Byb3ZpZGVyIjoiY3VzdG9tIn19.VGRsiUyxjld3B2KfOsvl8wT6LdTqnG0Z5nMR4sL8qmZUrTotRbTWnFTBp6l-RW_g4teKE2_QKuDQEpu3GYBpDtZw_AmdwjvkLVlqg_2vFoSRPnLDKCkBxsnoDp9nkG8q1opkToE8SbxsBprhiHWT4GZX8_YbPLjmb7JaxvGJJoO35J5354OjiSF6yQez0uL3F5yvbkb8MJl25hvD1GKe6lSurojXQFWHsMO7OmFem8qVPO_LSLOjXWn7LyjGfeCuXwOrFN-flkUoALt6ZV3zOYvXMjQ3OO3uSZffdq8eZkmbIdZE8tJ2yLpGUGrJICOqnVgY5fdmUGUc3C7j78oW7w" 
 ```
 
-The first part `Bearer` can be discarded.  The send part (`eyJhbGc....j78oW7w`) is the JWT token to be validated. 
+The first part `Bearer` can be ignored.  The send part (`eyJhbGc....j78oW7w`) is the JWT token to be validated. 
 
 ### Validation 
 When validating the JWT, key points to validate are:  
-* the issuer is a issuer that you expect 
-* the audience is an audience that you expect for that issuer 
+* the issuer (`iss`) is a issuer that you expect 
+* the audience (`aud`) is an audience that you expect for that issuer 
 * the token is not expired (`exp`) 
 * the signature is valid
 
@@ -110,12 +110,14 @@ def hello_world():
     authorization_header = request.headers['Authorization']
     a, id_token = authorization_header.split(maxsplit=1)
     
-    try{
+    try {
         jwt_claims = verify_id_token(id_token)
         print("Webhook verified")
-        # do more processing 
-        return 200
     } catch (ValueError){
         return 403
     }
+    # do more processing
+    # any other error should return the proper status_code 
+    return 200
+
 ```
