@@ -157,7 +157,3 @@ Example response:
   "expires_in": 3600
 }
 ```
-
----
-
-This guide aims to facilitate your experience with authenticating and testing webhooks in our environment. Should you require further assistance or have any questions, please consult our detailed documentation or reach out to our support team.
