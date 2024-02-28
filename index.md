@@ -10,7 +10,7 @@ Here, you'll find comprehensive guides and documentation to help you start worki
 
 ## Webhooks
 Your system needs to implement a webhook endpoint to receive real-time notifications from our platform. Each webhook message includes several headers providing additional context about the event.
-- [Authentication](/webhooks/authentication): Verifying Webhook Authenticity
+- [Authentication](/webhooks/verification): Verifying Webhook Authenticity
 - [Implementation](/webhooks/implementation): Webhook Endpoint Implementation Guide
 
 ## About

@@ -1,7 +1,7 @@
 ---
 title: Implementation
 layout: default
-nav_order: 4
+nav_order: 1
 ---
 
 # Webhook Endpoint Implementation Guide
@@ -27,7 +27,7 @@ When your endpoint receives a webhook, it will contain the following headers:
 
 ## Handling Webhooks
 ### Verifying Webhook Authenticity
-See the [Authentication Guide](/webhooks/authentication)
+See the [Verification Guide](/webhooks/verification)
 
 ### Processing Webhook Events
 - Use the `X-Pps-Topic` header to determine the type of event and process accordingly.
@@ -41,73 +41,53 @@ See the [Authentication Guide](/webhooks/authentication)
 - If your endpoint returns a status code >= `500`, the data will be resent using an exponential backoff algorithm.
 
 ## Example Code
-Here's a simple example in Python to demonstrate how to verify and handle a webhook:
+Here's a simple example that demonstrates how to verify and process a webhook request:
 
-```python
-import hashlib
-from authlib.jose import jwt
-from authlib.oidc.core import CodeIDToken
-import requests
-from cachetools import TTLCache
-from flask import Flask
-from flask import request
+```javascript
+const express = require('express');
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
-app = Flask(__name__)
+const app = express();
+const port = 3000;
 
-# Trusted OIDC issuers
-trusted_issuers = {
-    'https://securetoken.google.com/pps-local-dev-376022': ['pps-local-dev-376022'],
-    'https://issuer2.example.com': None,
-    # Add more trusted issuers as needed
+// Trusted issuer and audience
+const trustedIssuer = 'https://securetoken.google.com/test-tenant';
+const audience = 'test-tenant';
+
+// Middleware to validate the JWT Bearer token
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true, // Enable caching of JWKs
+    rateLimit: true,
+    jwksRequestsPerMinute: 5, // Prevent attackers from requesting JWKs too frequently
+    jwksUri: `${trustedIssuer}/.well-known/jwks.json`
+  }),
+  audience: audience,
+  issuer: trustedIssuer,
+  algorithms: ['RS256']
+});
+
+// Placeholder for business logic processing
+function processBusinessLogic(req, res) {
+  // Implement your business logic here
+  console.log("Processing business logic for user:", req.user.sub);
+  res.send("Business logic processed successfully");
 }
 
-# JWKS Cache setup - cache will expire after 3600 seconds (1 hour)
-jwks_cache = TTLCache(maxsize=10, ttl=3600)
+// Your API endpoint that requires JWT validation
+app.post('/receive-webhook', checkJwt, (req, res) => {
+  processBusinessLogic(req, res);
+});
 
-def fetch_jwks(issuer):
-    if issuer not in trusted_issuers:
-        raise ValueError("Issuer not trusted")
+// Error handling for unauthorized access
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(403).send('Invalid token');
+  }
+});
 
-    if issuer not in jwks_cache:
-        # Fetch OpenID Configuration
-        config_url = f'{issuer}/.well-known/openid-configuration'
-        oidc_config = requests.get(config_url).json()
-
-        # Fetch JWKS
-        jwks_url = oidc_config['jwks_uri']
-        jwks_cache[issuer] = requests.get(jwks_url).json()
-
-    return jwks_cache[issuer]
-
-def verify_id_token(data, secret, id_token):
-    # JWT Token to validate
-    
-    # Decode token without verification to extract issuer
-    unverified_claims = jwt.decode(id_token, options={"verify_signature": False})
-    issuer = unverified_claims.get('iss')
-    
-    if not issuer:
-        raise ValueError("Issuer claim not found in JWT")
-    
-    # Fetch JWKS for the issuer
-    jwks = fetch_jwks(issuer)
-    
-    # Decode and validate the token
-    claims_options = {'iss': {'essential': True, 'value': issuer}, 'aud': {'essential': True, 'value': trusted_issuers[issuer]}, }
-    decoded = jwt.decode(id_token, jwks, claims_options=claims_options)
-    
-    return decoded
-
-@app.route('/', methods=['POST'])
-def hello_world():
-    authorization_header = request.headers['Authorization']
-    a, id_token = authorization_header.split(maxsplit=1)
-    
-    try{
-        jwt_claims = verify_id_token(id_token)
-        print("Webhook verified")
-        return 200
-    } catch (ValueError){
-        return 403
-    }
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
 ```
