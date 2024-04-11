@@ -5,7 +5,6 @@ nav_order: 1
 ---
 Beta
 {: .label .label-yellow }
-
 # Orders Query Implementation Guide
 
 ## Overview
@@ -16,35 +15,11 @@ Your system needs to query your orders the point services platform.
 Before you can test your query, you must obtain an access token for the pointservices platform.
 
 ### Step 1: Authenticate and Receive Tokens
+See the [Authentication Guide](/authentication/access_token) for more information on how to authenticate and receive your token.
 
-Use the following command to authenticate with your credentials and receive your token. Replace `customerUsername` and `customerPassword` with your actual username and password.
+### Step 2: Send your first request.
 
-```bash
-curl -X POST https://api.pointservices.com/user-management-services-ws/oauth2/002/signInWithPassword \
--H "Content-Type: application/json" \
--d '{
-  "username": "customerUsername",
-  "password": "customerPassword"
-}'
-```
-
-The response will be a json structure that includes:
-- `access_token`: Used for authenticated requests to the webhook testing endpoint.
-- `refresh_token`: Used to obtain a new access token once the current one expires.
-- `expires_in`: The time in seconds until the access token expires.
-
-Read the response to obtain the new `access_token`, `expires_in` and `refresh_token` values. The `expires_in` value will in most cases be 3600 seconds (1 hour) from the time the new access token was issued.
-
-Example response:
-
-```json
-{
-  "access_token": "eyJraWQiOiIxMjM0NSIsInR5cCI6IkpXVCIsImFsZyI6IlJTMjU2In0.eyJhdWQiOiJ0ZXN0LXRlbmFudCIsInN1YiI6InhwcHN8MTIyMyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJ1c2VyX2lkIjoiMTIyMyIsImF1dGhfdGltZSI6MTcwODcxNTYwMiwiaXNzIjoiaHR0cHM6XC9cL3NlY3VyZXRva2VuLmdvb2dsZS5jb21cL3Rlc3QtdGVuYW50IiwiZXhwIjoxNzA4NzE5LCJpYXQiOjE3MDg3MTUsImVtYWlsIjoidGVzdHVzZXJAdGVuYW50LmNvbSJ9.dGVzdA==",
-  "refresh_token": "AMf-vBxITbnfBBMJpPXMvop1qa1cMaUuqAKX_y1hYsmcgVtzhx7Al_9mWD",
-  "expires_in": 3600
-}
-```
-### Step 2: Send a request to list the first 100 orders under your account
+This request will list the first 100 orders under your account. When an empty body is supplied, just the first 100 orders are returned.
 
 Incorporate the access token in the `Authorization` header and send a test request as follows:
 
@@ -57,7 +32,11 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 Replace `your_access_token_here` with the actual token you received in the `access_token` field from the authentication process.
 
-Example Response
+### Example response:  
+`count` is the number of results returned
+`limit` is the max number of results to return. If count is less than limit, then there are no more results to return
+`nextMarker` is the marker to use in the next request to get the next set of results
+`results` is the list of orders returned
 
 ```json
 {
@@ -86,7 +65,7 @@ Example Response
 
 ### Step 3: Send a request to list the next 100 orders under your account
 
-Use the ```nextMarker``` field from the response in Step 2 for the ```marker``` field in this request. Set the ```limit``` field to 100 to limit the number of results to 100. Send a test request as follows:
+Use the `nextMarker` field from the response in Step 2 for the `marker` field in this request. Set the `limit` field to 100 to limit the number of results to 100. Send a test request as follows:
 
 ```bash
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/orders/query 
@@ -98,7 +77,11 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 }'
 ```
 
-Example Response
+### Example response:
+`count` is the number of results returned
+`limit` is the max number of results to return. If count is less than limit, then there are no more results to return
+`nextMarker` is the marker to use in the next request to get the next set of results
+`results` is the list of orders returned
 
 ```json
 {
@@ -134,7 +117,11 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 -d '{"filters":{"ReferenceNumber":{"eq":"7058774124"}},"limit":5}'
 ```
 
-Example Response
+### Example response:
+`count` is the number of results returned
+`limit` is the max number of results to return. If count is less than limit, then there are no more results to return
+`nextMarker` is the marker to use in the next request to get the next set of results
+`results` is the list of orders returned
 
 ```json
 {
@@ -170,7 +157,11 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 -d '{"filters":{"Completed":{"gt":"2024-02-06T20:49:43.000Z"}},"limit":5, "marker":"6705424597053369343"}
 ```
 
-Example Response
+### Example response:
+`count` is the number of results returned
+`limit` is the max number of results to return. If count is less than limit, then there are no more results to return
+`nextMarker` is the marker to use in the next request to get the next set of results
+`results` is the list of orders returned
 
 ```json
 {
@@ -200,39 +191,39 @@ Example Response
 ## Learning the query DSL
 
 ### Query DSL Comparison Operators
-Filter expressions support eq, ne, in, gt, lt, ge, le, startsWith and startsWithIgnoreCase
+Filter expressions support `eq, ne, in, gt, lt, ge, le, startsWith and startsWithIgnoreCase`
 
-```eq``` represents equals
-```ne``` represents not equals
-```in``` represents a list of values that a property can be
-```gt``` represents that a property should be greater than the supplied value
-```lt``` represents that a property should be less than the supplied value
-```ge``` represents that a property should be greater or equal to the supplied value
-```le``` represents that a property should be less than or equal to the supplied value
-```startsWith``` represents that a property should begin with the supplied value
-```startsWithIgnoreCase``` represents that a property should begin with the supplied value and case is not important
+- `eq` represents equals
+- `ne` represents not equals
+- `in` represents a list of values that a property can be
+- `gt` represents that a property should be greater than the supplied value
+- `lt` represents that a property should be less than the supplied value
+- `ge` represents that a property should be greater or equal to the supplied value
+- `le` represents that a property should be less than or equal to the supplied value
+- `startsWith` represents that a property should begin with the supplied value
+- `startsWithIgnoreCase` represents that a property should begin with the supplied value and case is not important
 
 ### Query DSL Supported Properties
-```Completed```: Date and Time the order was completed. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in```
-```Created```: Date and Time the order was created. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in```
-```Deleted```: Boolean value indicating if the order was deleted. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in```
-```DossierGuid```: Unique identifier for the orders container. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```Fulfilled```: Date and Time the order was fulfilled. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```OrderGuid```: Unique identifier for the order. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```OrderSummary```: Summary of the order. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```OwnerCompanyName```: Company name of the order owner. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```OwnerUserContactMechanism```: Contact mechanism of the order owner. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```OwnerUserDisplayName```: Display name of the order owner. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```ProductDisplayName```: Display name of the product that was ordered. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```ProductType```: Type of the product that was ordered. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```ReferenceNumber```: Reference number of the order. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```ReportAvailable```: Boolean value indicating if the report is available. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
-```Status```: Status of the order. Supports comparison operators ```eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase```
+- `Completed`: Date and Time the order was completed. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
+- `Created`: Date and Time the order was created. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
+- `Deleted`: Boolean value indicating if the order was deleted. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
+- `DossierGuid`: Unique identifier for the orders container. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `Fulfilled`: Date and Time the order was fulfilled. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `OrderGuid`: Unique identifier for the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `OrderSummary`: Summary of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `OwnerCompanyName`: Company name of the order owner. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `OwnerUserContactMechanism`: Contact mechanism of the order owner. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `OwnerUserDisplayName`: Display name of the order owner. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `ProductDisplayName`: Display name of the product that was ordered. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `ProductType`: Type of the product that was ordered. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `ReferenceNumber`: Reference number of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `ReportAvailable`: Boolean value indicating if the report is available. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
+- `Status`: Status of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 
 ### Supported Date and Time formats
-```yyyy-MM-dd'T'HH:mm:ss.SSS'Z'```
-```yyyy-MM-dd'T'HH:mm:ssZZ```
-```EEE, dd MMM yyyy HH:mm:ss Z```
+- `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`
+- `yyyy-MM-dd'T'HH:mm:ssZZ`
+- `EEE, dd MMM yyyy HH:mm:ss Z`
 
 It's important to supply the timezone since the api will use the timezone to compare the date and time of the query.
 
