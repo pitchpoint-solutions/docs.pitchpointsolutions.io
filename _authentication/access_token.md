@@ -29,6 +29,12 @@ The response will be a json structure that includes:
 
 Read the response to obtain the new `access_token`, `expires_in` and `refresh_token` values. The `expires_in` value will in most cases be 3600 seconds (1 hour) from the time the new access token was issued.
 
+
+{: .important }
+> API Reference: 
+> 
+> [Sign In With Password API Reference](/api/authentication/signinwithpassword)
+
 ### Example response:
 
 ```json
@@ -49,12 +55,20 @@ curl -X POST https://api.pointservices.com/...
 -d '...'
 ```
 
-### Step 3: The access token is valid for 3600 seconds (1 hour) from the time it was issued. If you need to refresh the token, use the following command:
+### Step 3: Refresh your access token
 
-Refresh tokens are valid for 24 hours rounded up to midnight eastern time. The refresh token should be reused to fetch to access tokens until the refresh token expires. Once the refresh token expires, you will need to authenticate again using the `customerUsername` and `customerPassword`
+The access token is valid for 3600 seconds (1 hour) from the time it was issued. If you need to refresh the token, use the following command:
 
 ```bash
 curl -X POST https://api.pointservices.com/user-management-services-ws/oauth2/002/refreshIdToken \
 -H "Content-Type: application/json" \
 -d '{"refresh_token":"AMf-vBxITbnfBBMJpPXMvop1qa1cMaUuqAKX_y1hYsmcgVtzhx7Al_9mWD""}'
 ```
+
+Refresh tokens are valid for 24 hours rounded up to midnight eastern time. The refresh token should be reused to fetch to access tokens until the refresh token expires. Once the refresh token expires, you will need to authenticate again using `/user-management-services-ws/oauth2/002/signInWithPassword` api again.
+
+{: .important }
+> API Reference:
+>
+> [Refresh Access Token API Reference](/api/authentication/refreshidtoken)
+
