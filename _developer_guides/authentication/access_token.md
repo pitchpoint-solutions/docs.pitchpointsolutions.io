@@ -1,6 +1,7 @@
 ---
 title: Obtaining An Access Token
 layout: default
+parent: Authentication
 nav_order: 1
 ---
 Stable
