@@ -20,7 +20,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "limit": 100,
   "marker": "",
   "filters": {
-    "Created": :{"ge":"2024-04-09T18:42:22.705Z","le":"2024-04-10T18:42:22.712Z"}}
+    "Created": {"ge":"2024-04-09T18:42:22.705Z","le":"2024-04-10T18:42:22.712Z"}
   }
 }'
 ```
@@ -28,9 +28,10 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 #### Header Properties
 <div class="datatable-begin"></div>
 
-| Property | Value            | Required? |
-|----------|------------------|-----------|
-| Content-Type | application/json | true      |
+| Property     | Value            | Required? |
+|--------------|------------------|-----------|
+| Content-Type | application/json | false     |
+| Accept       | application/json | false     |
 
 <div class="datatable-end"></div>
 
@@ -340,12 +341,12 @@ The following is an example of a search between two dates query that's exclusive
 
 <div class="datatable-begin"></div>
 
-| Property | Description                                                                                                              | Type    | Default |
-|----------|--------------------------------------------------------------------------------------------------------------------------|---------|--------|
-| count | Total number of results returned in this request.  If the `count` is less than `limit` there are no more results to return | number  | 100    |
-| limit | The max number of results to return.  If `count` is less than `limit`, then there are no more results to return              | number  | 100   |
-| nextMarker | The marker to use in the next request to get the next set of results. | string | |
-| results | The list of orders returned. | array | |
+| Property | Description                                                                                                                                                                                                                                                                            | Type    | Default |
+|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|--------|
+| count | Total number of results returned in this request.  If the `count` is less than `limit` there are no more results to return                                                                                                                                                             | number  | 100    |
+| limit | The max number of results to return.  If `count` is less than `limit`, then there are no more results to return                                                                                                                                                                        | number  | 100   |
+| nextMarker | The marker to use in the next request to get the next set of results.  If this property is absent, than that means that there is definitively no more results to return.  However, if this value is present, than there is a possibility that there maybe more results to be returned. | string | |
+| results | The list of orders returned.                                                                                                                                                                                                                                                           | array | |
 
 
 <div class="datatable-end"></div>
