@@ -33,13 +33,10 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 This is a special case where you want all of your orders to be returned.  No DSL (json) is sent for the request body.
 
+{: .api_ref }
+[Order Query API Reference](/api/order/query)
 
-{: .important }
-> API Reference:
->
-> [Order Query API Reference](/api/order/query)
-
-
+    
 
 #### Example response:  
 
