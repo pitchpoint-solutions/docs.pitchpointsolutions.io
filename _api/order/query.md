@@ -8,9 +8,6 @@ datatable: true
 Beta
 {: .label .label-yellow }
 
-@todo: Add error responses
-{: .label .label-yellow }
-
 ## Query
 
 Query your orders based on the provided criteria.
@@ -67,7 +64,6 @@ Filter expressions support `eq, ne, in, gt, lt, ge, le, startsWith and startsWit
 - `Completed`: Date and Time the order was completed. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
 - `Created`: Date and Time the order was created. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
 - `Deleted`: Boolean value indicating if the order was deleted. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
-- `DossierGuid`: Unique identifier for the orders container. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 - `Fulfilled`: Date and Time the order was fulfilled. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 - `OrderGuid`: Unique identifier for the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 - `OrderSummary`: Summary of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
@@ -178,24 +174,6 @@ It's important to supply the timezone since the api will use the timezone to com
 {"filters":{"OrderGuid":{"startsWith":"value"}},"limit":5,"marker":"aaa"}
 
 {"filters":{"OrderGuid":{"startsWithIgnoreCase":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"eq":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"ge":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"gt":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"in":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"le":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"lt":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"ne":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"startsWith":"value"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"DossierGuid":{"startsWithIgnoreCase":"value"}},"limit":5,"marker":"aaa"}
 
 {"filters":{"OwnerUserDisplayName":{"eq":"value"}},"limit":5,"marker":"aaa"}
 
@@ -382,7 +360,6 @@ Example:
     "Completed" : "2024-02-05T20:49:44.000Z",
     "Created" : "2024-02-05T20:49:42.000Z",
     "Deleted" : false,
-    "DossierGuid" : "9733914918566161680",
     "Fulfilled" : "2024-02-05T20:49:42.000Z",
     "OrderGuid" : "2992759493555823372",
     "OrderSummary" : "Cyril Figgins",
@@ -398,28 +375,25 @@ Example:
 }
 ```
 
-@todo: Add error responses
-{: .label .label-yellow }
-
 400
-{: .label .label-red }
-
-403
 {: .label .label-red }
 
 <div class="datatable-begin"></div>
 
 | Property | Description                           | Type | Default |
 |----------|---------------------------------------|------|---------|
-| error    | Error code                            | string | |
-| error_description  | String description of what went wrong | string | |
+| message  | String description of what went wrong | string | |
 
 <div class="datatable-end"></div>
 
-Example:
+Examples:
 ```json
 {
-    "error_description": "Invalid username / password combination",
-    "error": "access_denied"
+  "message" : "Unsupported field: InvalidField"
+}
+
+{
+  "message" : "Unsupported operator: NotARealOperator for field: ReferenceNumber"
 }
 ```
+
