@@ -21,6 +21,10 @@ Your system needs to implement a webhook endpoint to receive real-time notificat
 - [Verifcation](/webhooks/verification): Verifying Webhook Authenticity
 - [Implementation](/webhooks/implementation): Webhook Endpoint Implementation Guide
 
+## API Reference Topics
+- [Authentication](/api/authentication/index): Authentication API Reference
+- [Order](/api/order/index): Order API Reference
+
 ## About
 
 - [Company](https://www.pitchpointsolutions.com/): Learn more about PitchPoint Solutions.
