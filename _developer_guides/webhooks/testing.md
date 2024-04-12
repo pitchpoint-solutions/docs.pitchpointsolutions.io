@@ -1,9 +1,11 @@
 ---
 title: Testing
-layout: default
+layout: dev_guide
+parent: Webhooks
 nav_order: 3
 ---
-
+Coming soon
+{: .label .label-yellow }
 # Webhook Testing Guide for Developers
 
 This guide provides step-by-step instructions for developers on how to authenticate and test webhook integrations with our service. The process includes obtaining authentication tokens, sending a test webhook request, and refreshing your tokens as needed.
@@ -14,33 +16,7 @@ Before you can test your webhook listener, you must obtain an access token for t
 
 ### Step 1: Authenticate and Receive Tokens
 
-Use the following command to authenticate with your credentials and receive your token. Replace `customerUsername` and `customerPassword` with your actual username and password.
-
-```bash
-curl -X POST https://api.pointservices.com/user-management-services-ws/oauth2/002/signInWithPassword \
--H "Content-Type: application/json" \
--d '{
-  "username": "customerUsername",
-  "password": "customerPassword"
-}'
-```
-
-The response will be a json structure that includes:
-- `access_token`: Used for authenticated requests to the webhook testing endpoint.
-- `refresh_token`: Used to obtain a new access token once the current one expires.
-- `expires_in`: The time in seconds until the access token expires.
-
-Read the response to obtain the new `access_token`, `expires_in` and `refresh_token` values. The `expires_in` value will in most cases be 3600 seconds (1 hour) from the time the new access token was issued.
-
-Example response:
-
-```json
-{
-  "access_token": "eyJraWQiOiIxMjM0NSIsInR5cCI6IkpXVCIsImFsZyI6IlJTMjU2In0.eyJhdWQiOiJ0ZXN0LXRlbmFudCIsInN1YiI6InhwcHN8MTIyMyIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJ1c2VyX2lkIjoiMTIyMyIsImF1dGhfdGltZSI6MTcwODcxNTYwMiwiaXNzIjoiaHR0cHM6XC9cL3NlY3VyZXRva2VuLmdvb2dsZS5jb21cL3Rlc3QtdGVuYW50IiwiZXhwIjoxNzA4NzE5LCJpYXQiOjE3MDg3MTUsImVtYWlsIjoidGVzdHVzZXJAdGVuYW50LmNvbSJ9.dGVzdA==",
-  "refresh_token": "AMf-vBxITbnfBBMJpPXMvop1qa1cMaUuqAKX_y1hYsmcgVtzhx7Al_9mWD",
-  "expires_in": 3600
-}
-```
+See the [Authentication Guide](/authentication/access_token) for more information on how to authenticate and receive your token.
 
 ## Testing the Webhook Endpoint
 
