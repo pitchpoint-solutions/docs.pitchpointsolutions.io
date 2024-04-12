@@ -16,7 +16,7 @@ Before you can test your webhook listener, you must obtain an access token for t
 
 ### Step 1: Authenticate and Receive Tokens
 
-See the [Authentication Guide](/authentication/access_token) for more information on how to authenticate and receive your token.
+See the [Authentication Guide](/developer_guides/authentication/access_token) for more information on how to authenticate and receive your token.
 
 ## Testing the Webhook Endpoint
 
