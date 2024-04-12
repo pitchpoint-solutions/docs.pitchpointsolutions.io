@@ -16,7 +16,7 @@ Your system needs to query your orders the point services platform.
 Before you can test your query, you must obtain an access token for the pointservices platform.
 
 ### Step 1: Authenticate and Receive Tokens
-See the [Authentication Guide](/authentication/access_token) for more information on how to authenticate and receive your token.
+See the [Authentication Guide](/developer_guides/authentication/access_token/) for more information on how to authenticate and receive your token.
 
 ### Step 2: Send your first request.
 
