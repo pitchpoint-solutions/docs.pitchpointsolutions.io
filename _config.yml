@@ -66,13 +66,7 @@ collections:
   api:
     permalink: "/:collection/:path/"
     output: true
-  authentication:
-    permalink: "/:collection/:path/"
-    output: true
-  orders:
-    permalink: "/:collection/:path/"
-    output: true
-  webhooks:
+  developer_guides:
     permalink: "/:collection/:path/"
     output: true
 
@@ -80,33 +74,9 @@ collections:
 just_the_docs:
   # Define which collections are used in just-the-docs
   collections:
-    authentication:
+    developer_guides:
       # Give the collection a name
-      name: Authentication
-      # Exclude the collection from the navigation
-      # Supports true or false (default)
-      nav_exclude: false
-      # Fold the collection in the navigation
-      # Supports true or false (default)
-      nav_fold: true  # note: this option is new in v0.4
-      # Exclude the collection from the search
-      # Supports true or false (default)
-      # search_exclude: true
-    orders:
-      # Give the collection a name
-      name: Orders
-      # Exclude the collection from the navigation
-      # Supports true or false (default)
-      nav_exclude: false
-      # Fold the collection in the navigation
-      # Supports true or false (default)
-      nav_fold: true  # note: this option is new in v0.4
-      # Exclude the collection from the search
-      # Supports true or false (default)
-      # search_exclude: true
-    webhooks:
-      # Give the collection a name
-      name: Webhooks
+      name: Developer Guides
       # Exclude the collection from the navigation
       # Supports true or false (default)
       nav_exclude: false

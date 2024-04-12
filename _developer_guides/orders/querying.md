@@ -1,6 +1,7 @@
 ---
 title: Querying
 layout: default
+parent: Orders
 nav_order: 1
 ---
 Beta

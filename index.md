@@ -10,16 +10,16 @@ Here, you'll find comprehensive guides and documentation to help you start worki
 
 ## Authentication
 Before you can access the system, you must obtain an access token for the pointservices platform.
-- [Authentication](/authentication/access_token): Obtaining An Access Token
+- [Authentication](/developer_guides/authentication/access_token): Obtaining An Access Token
 
 ## Orders
 The Orders API allows you to manage orders and order items.
-- [Order](/orders/querying): Order Querying
+- [Order](/developer_guides/orders/querying): Order Querying
 
 ## Webhooks
 Your system needs to implement a webhook endpoint to receive real-time notifications from our platform. Each webhook message includes several headers providing additional context about the event.
-- [Verifcation](/webhooks/verification): Verifying Webhook Authenticity
-- [Implementation](/webhooks/implementation): Webhook Endpoint Implementation Guide
+- [Verifcation](/developer_guides/webhooks/verification): Verifying Webhook Authenticity
+- [Implementation](/developer_guides/webhooks/implementation): Webhook Endpoint Implementation Guide
 
 ## API Reference Topics
 - [Authentication](/api/authentication/index): Authentication API Reference

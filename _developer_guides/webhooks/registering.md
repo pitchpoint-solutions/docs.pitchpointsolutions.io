@@ -1,6 +1,7 @@
 ---
 title: Registering
 layout: default
+parent: Webhooks
 nav_order: 4
 ---
 Coming soon
