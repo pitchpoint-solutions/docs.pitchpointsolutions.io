@@ -1,6 +1,6 @@
 ---
 title: Registering
-layout: default
+layout: dev_guide
 parent: Webhooks
 nav_order: 4
 ---

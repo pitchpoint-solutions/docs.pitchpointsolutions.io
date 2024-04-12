@@ -1,9 +1,10 @@
 ---
 title: Obtaining An Access Token
-layout: default
+layout: dev_guide
 parent: Authentication
 nav_order: 1
 ---
+
 Stable
 {: .label .label-green }
 ## Obtaining Authentication Tokens

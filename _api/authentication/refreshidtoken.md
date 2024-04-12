@@ -1,6 +1,6 @@
 ---
 title: Refresh Access Token
-layout: default
+layout: api_ref
 nav_order: 3
 parent: Authentication
 datatable: true

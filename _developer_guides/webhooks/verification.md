@@ -1,6 +1,6 @@
 ---
 title: Verification
-layout: default
+layout: dev_guide
 parent: Webhooks
 nav_order: 2
 ---

@@ -1,6 +1,6 @@
 ---
 title: Authentication
-layout: default
+layout: api_ref
 nav_order: 4
 has_children: true
 ---

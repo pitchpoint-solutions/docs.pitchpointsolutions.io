@@ -1,6 +1,6 @@
 ---
 title: Querying
-layout: default
+layout: dev_guide
 parent: Orders
 nav_order: 1
 ---

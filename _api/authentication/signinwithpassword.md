@@ -1,6 +1,6 @@
 ---
 title: Sign In With Password
-layout: default
+layout: api_ref
 nav_order: 2
 parent: Authentication
 datatable: true

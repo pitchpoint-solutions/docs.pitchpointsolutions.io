@@ -1,6 +1,6 @@
 ---
 title: Orders
-layout: default
+layout: dev_guide
 nav_order: 4
 has_children: true
 ---

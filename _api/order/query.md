@@ -1,6 +1,6 @@
 ---
 title: Query Orders
-layout: default
+layout: api_ref
 nav_order: 2
 parent: Order
 datatable: true
