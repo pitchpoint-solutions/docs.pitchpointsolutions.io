@@ -146,7 +146,7 @@ Since no `marker` was specified, it will start a new search.
 Even though `nextMarker` is present, because `count` (value of `1` in this example) is less than `limit` (value of `5` in this example), there are no more results to return. 
 
 
-### Step 5: Find orders greater than a specific date after the maker and limit the results to 5
+### Step 5: Find orders greater than a specific date and limit the results to 5
 
 ```bash
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/orders/query 
@@ -197,6 +197,7 @@ Send the same request again, but this time with the `marker` field set to the va
 {
   "count" : 5,
   "limit" : 5,
+  "marker":"6705424597053369343",
   "nextMarker" : "7705424597053369344",
   "results" : [ {
     "Completed" : "2024-02-06T20:49:44.000Z",
