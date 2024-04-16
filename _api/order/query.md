@@ -78,11 +78,24 @@ Filter expressions support `eq, ne, in, gt, lt, ge, le, startsWith and startsWit
 - `Status`: Status of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 
 ### Supported Date and Time formats
-- `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`
-- `yyyy-MM-dd'T'HH:mm:ssZZ`
-- `EEE, dd MMM yyyy HH:mm:ss Z`
+- `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`  e.g. `2022-04-11T10:30:00.000Z` 
+- `yyyy-MM-dd'T'HH:mm:ssZZ` e.g. `2022-04-11T14:30:00+0200`
+- `EEE, dd MMM yyyy HH:mm:ss Z` e.g. `Mon, 11 Apr 2022 10:30:00 -0400`
 
 It's important to supply the timezone since the api will use the timezone to compare the date and time of the query.
+
+
+| Code | Description                                                |
+|------|------------------------------------------------------------|
+| yyyy | four digit year, e.g. 2024                                 | 
+| MM | two digit month, e.g. 04                                   | 
+| dd | two digit day, e.g. 09                                     | 
+| T | seperator between the date and time.  Should always be 'T' |
+| HH | two digit hour in 24-time format, e.g. 14 (for 2pm)        | 
+| mm | two digit minute, e.g. 04                                  |
+| ss | two digit second, e.g. 05                                   |
+| SSS | three digit nano seconds, e.g. 000 |
+| EEE | three char code for the day name of the week, e.g. Mon |
 
 ### Example Queries
 ```json
