@@ -90,12 +90,15 @@ It's important to supply the timezone since the api will use the timezone to com
 | yyyy | four digit year, e.g. 2024                                 | 
 | MM | two digit month, e.g. 04                                   | 
 | dd | two digit day, e.g. 09                                     | 
-| T | seperator between the date and time.  Should always be 'T' |
+| 'T' | seperator between the date and time.  Should always be 'T' |
 | HH | two digit hour in 24-time format, e.g. 14 (for 2pm)        | 
 | mm | two digit minute, e.g. 04                                  |
 | ss | two digit second, e.g. 05                                   |
 | SSS | three digit nano seconds, e.g. 000 |
+| 'Z' | exactly UTC (Zulu) time zone |
+| Z or ZZ | UTC offset, e.g -0400 |
 | EEE | three char code for the day name of the week, e.g. Mon |
+
 
 ### Example Queries
 ```json
