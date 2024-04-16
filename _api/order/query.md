@@ -20,7 +20,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "limit": 100,
   "marker": "",
   "filters": {
-    "Created": :{"ge":"2024-04-09T18:42:22.705Z","le":"2024-04-10T18:42:22.712Z"}}
+    "Created": {"ge":"2024-04-09T18:42:22.705Z","le":"2024-04-10T18:42:22.712Z"}
   }
 }'
 ```
@@ -28,9 +28,10 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 #### Header Properties
 <div class="datatable-begin"></div>
 
-| Property | Value            | Required? |
-|----------|------------------|-----------|
-| Content-Type | application/json | true      |
+| Property     | Value            | Required? |
+|--------------|------------------|-----------|
+| Content-Type | application/json | false     |
+| Accept       | application/json | false     |
 
 <div class="datatable-end"></div>
 
@@ -77,11 +78,27 @@ Filter expressions support `eq, ne, in, gt, lt, ge, le, startsWith and startsWit
 - `Status`: Status of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 
 ### Supported Date and Time formats
-- `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`
-- `yyyy-MM-dd'T'HH:mm:ssZZ`
-- `EEE, dd MMM yyyy HH:mm:ss Z`
+- `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`  e.g. `2022-04-11T10:30:00.000Z` 
+- `yyyy-MM-dd'T'HH:mm:ssZZ` e.g. `2022-04-11T14:30:00+0200`
+- `EEE, dd MMM yyyy HH:mm:ss Z` e.g. `Mon, 11 Apr 2022 10:30:00 -0400`
 
 It's important to supply the timezone since the api will use the timezone to compare the date and time of the query.
+
+
+| Code | Description                                                |
+|------|------------------------------------------------------------|
+| yyyy | four digit year, e.g. 2024                                 | 
+| MM | two digit month, e.g. 04                                   | 
+| dd | two digit day, e.g. 09                                     | 
+| 'T' | seperator between the date and time.  Should always be 'T' |
+| HH | two digit hour in 24-time format, e.g. 14 (for 2pm)        | 
+| mm | two digit minute, e.g. 04                                  |
+| ss | two digit second, e.g. 05                                   |
+| SSS | three digit nano seconds, e.g. 000 |
+| 'Z' | exactly UTC (Zulu) time zone |
+| Z or ZZ | UTC offset, e.g -0400 |
+| EEE | three char code for the day name of the week, e.g. Mon |
+
 
 ### Example Queries
 ```json
@@ -340,12 +357,12 @@ The following is an example of a search between two dates query that's exclusive
 
 <div class="datatable-begin"></div>
 
-| Property | Description                                                                                                              | Type    | Default |
-|----------|--------------------------------------------------------------------------------------------------------------------------|---------|--------|
-| count | Total number of results returned in this request.  If the `count` is less than `limit` there are no more results to return | number  | 100    |
-| limit | The max number of results to return.  If `count` is less than `limit`, then there are no more results to return              | number  | 100   |
-| nextMarker | The marker to use in the next request to get the next set of results. | string | |
-| results | The list of orders returned. | array | |
+| Property   | Description                                                                                                                                                                                                                                                                            | Type   | Default |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|-----|
+| count      | Total number of results returned in this request.  If the `count` is less than `limit` there are no more results to return                                                                                                                                                             | number | 100 |
+| limit      | Echoed from the request or 100.  If `count` is less than `limit`, then there are no more results to return                                                                                                                                                                             | number | 100 |
+| nextMarker | The marker to use in the next request to get the next set of results.  If this property is absent, than that means that there is definitively no more results to return.  However, if this value is present, than there is a possibility that there maybe more results to be returned. | string | |
+| results    | The list of orders returned.                                                                                                                                                                                                                                                           | array  | |
 
 
 <div class="datatable-end"></div>

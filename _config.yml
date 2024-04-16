@@ -61,6 +61,9 @@ callouts:
   warning:
     title: Warning
     color: red
+  api_ref:
+    title: API Reference
+    color: blue
 
 collections:
   api:
@@ -98,5 +101,6 @@ just_the_docs:
       # Exclude the collection from the search
       # Supports true or false (default)
       # search_exclude: true
+
 
 
