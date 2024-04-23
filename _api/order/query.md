@@ -64,7 +64,6 @@ Filter expressions support `eq, ne, in, gt, lt, ge, le, startsWith and startsWit
 ### Query DSL Supported Properties
 - `Completed`: Date and Time the order was completed. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
 - `Created`: Date and Time the order was created. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
-- `Deleted`: Boolean value indicating if the order was deleted. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in`
 - `Fulfilled`: Date and Time the order was fulfilled. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 - `OrderGuid`: Unique identifier for the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
 - `OrderSummary`: Summary of the order. Supports comparison operators `eq, ne, in, gt, ge, lt, le, in, startsWith, startsWithIgnoreCase`
@@ -85,19 +84,19 @@ Filter expressions support `eq, ne, in, gt, lt, ge, le, startsWith and startsWit
 It's important to supply the timezone since the api will use the timezone to compare the date and time of the query.
 
 
-| Code | Description                                                |
-|------|------------------------------------------------------------|
-| yyyy | four digit year, e.g. 2024                                 | 
-| MM | two digit month, e.g. 04                                   | 
-| dd | two digit day, e.g. 09                                     | 
-| 'T' | seperator between the date and time.  Should always be 'T' |
-| HH | two digit hour in 24-time format, e.g. 14 (for 2pm)        | 
-| mm | two digit minute, e.g. 04                                  |
-| ss | two digit second, e.g. 05                                   |
-| SSS | three digit nano seconds, e.g. 000 |
-| 'Z' | exactly UTC (Zulu) time zone |
-| Z or ZZ | UTC offset, e.g -0400 |
-| EEE | three char code for the day name of the week, e.g. Mon |
+| Code | Description                                                  |
+|------|--------------------------------------------------------------|
+| yyyy | four digit year, e.g. 2024                                   | 
+| MM | two digit month, e.g. 04                                     | 
+| dd | two digit day, e.g. 09                                       | 
+| 'T' | seperator between the date and time.  Should always be [ T ] |
+| HH | two digit hour in 24-time format, e.g. 14 (for 2pm)          | 
+| mm | two digit minute, e.g. 04                                    |
+| ss | two digit second, e.g. 05                                    |
+| SSS | three digit nano seconds, e.g. 000                           |
+| 'Z' | exactly UTC (Zulu) time zone.  Should always be [ Z ]       |
+| Z or ZZ | UTC offset, e.g -0400                                        |
+| EEE | three char code for the day name of the week, e.g. Mon       |
 
 
 ### Example Queries
@@ -330,11 +329,6 @@ It's important to supply the timezone since the api will use the timezone to com
 
 {"filters":{"ReportAvailable":{"ne":"true"}},"limit":5,"marker":"aaa"}
 
-{"filters":{"Deleted":{"eq":"true"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"Deleted":{"in":"true"}},"limit":5,"marker":"aaa"}
-
-{"filters":{"Deleted":{"ne":"true"}},"limit":5,"marker":"aaa"}
 ```
 
 The following is an example of a search between two dates query that's inclusive
