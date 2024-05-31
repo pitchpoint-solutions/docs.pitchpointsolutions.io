@@ -164,24 +164,24 @@ curl -X POST "${url}"
 | AddressLine1     | (mandatory) Line1 of the residence of a person                                                                   | string  |
 | City             | (mandatory) City of the residence of a person                                                                    | string  |
 | State            | (mandatory) State of the residence of a person.  2-character code indicating which state.                        | string  |
-| PostalCode       | (mandatory) Zip code of the residence.  Either the 5 digit format or ZIP+4 format                                | string  |
+| PostalCode       | (mandatory) 5 digit zip code of the residence.                        | string  |
 
 <div class="datatable-end"></div>
 
 ##### Terms.Term.personOrPropertyOrParticipant.Participant
 <div class="datatable-begin"></div>
 
-| Property     | Description                                                                             | Type         |
-|--------------|-----------------------------------------------------------------------------------------|--------------|
-| CompanyName  | (mandatory) Company name                                                                | string       |
-|              | (mandatory) Items.ParticipantItem                                                       | object/array |
-| Key          | (mandatory) Must be the value `TaxIdentificationEIN`                                    | string       | 
-| Value        | (mandatory) Employer Identification Number                                              | string       |
-|              | (mandatory) Address                                                                     | object       |
-| AddressLine1 | (mandatory) Line1 of the company address                                                | string       | 
-| City         | (mandatory) City of the company address                                                 | string       | 
-| State        | (mandatory) 2-character code of the companys' state                                     | string       | 
-| PostalCode   | (mandatory) Zip code of the company address.  Can be either the 5-digit or ZIP+4 format | string       | 
+| Property     | Description                                                                                     | Type         |
+|--------------|-------------------------------------------------------------------------------------------------|--------------|
+| CompanyName  | (mandatory) Company name                                                                        | string       |
+|              | (mandatory) Items.ParticipantItem                                                               | object/array |
+| Key          | (mandatory) Must be the value `TaxIdentificationEIN`                                            | string       | 
+| Value        | (mandatory) Employer Identification Number                                                      | string       |
+|              | (mandatory) Address                                                                             | object       |
+| AddressLine1 | (mandatory) Line1 of the company address                                                        | string       | 
+| City         | (mandatory) City of the company address                                                         | string       | 
+| State        | (mandatory) 2-character code of the companys' state                                             | string       | 
+| PostalCode   | (mandatory) 5 digit zip code of the company address. | string       | 
 
 <div class="datatable-end"></div>
 
