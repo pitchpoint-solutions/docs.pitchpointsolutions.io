@@ -117,11 +117,11 @@ curl -X POST "${url}"
 ##### Attachments.Attachment
 <div class="datatable-begin"></div>
 
-| Property | Description                                                                                                                                        | Type   |
-|----------|----------------------------------------------------------------------------------------------------------------------------------------------------|--------|
-| Classifier    | (mandatory) Must be the string `irs8821TranscriptAuthorizationConsentCombined`                                                                | string |
-| ContentType   | (mandatory) The mime-type for the input file.  Typically this will be `application/pdf`                                                       | string |
-| Document | (mandatory) ilters to apply to the query. See below for the DSL.                                                                                   | object |
+| Property    | Description                                                                             | Type   |
+|-------------|-----------------------------------------------------------------------------------------|--------|
+| Classifier  | (mandatory) Must be the string `irs8821TranscriptAuthorizationConsentCombined`          | string |
+| ContentType | (mandatory) The mime-type for the input file.  Typically this will be `application/pdf` | string |
+| Document    | (mandatory) The base64 encoded bytes of the file                                        | object |
 
 <div class="datatable-end"></div>
 
