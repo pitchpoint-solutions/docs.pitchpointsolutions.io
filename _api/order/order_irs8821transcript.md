@@ -13,12 +13,11 @@ Beta
 Ordering an IRS8821Transcript product. 
 
 {: .before_starting }
-Get the `ModelName` from your Pitchpoint Representative. 
+Get the URL from your Pitchpoint Account Representative of where you should be submitting your orders to. 
 
 
 ```bash
-modelName="PDF-001" 
-url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/${modelName}"
+url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001"
 # use the `base64` program to encode the pdf file in base64 
 file=$( base64 test-pdf.pdf )
 data='{
