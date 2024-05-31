@@ -120,7 +120,7 @@ curl -X POST "${url}"
 |-------------|-----------------------------------------------------------------------------------------|--------|
 | Classifier  | (mandatory) Must be the string `irs8821TranscriptAuthorizationConsentCombined`          | string |
 | ContentType | (mandatory) The mime-type for the input file.  Typically this will be `application/pdf` | string |
-| Document    | (mandatory) The base64 encoded bytes of the file                                        | object |
+| Document    | (mandatory) The base64 encoded bytes of the file                                        | string |
 
 <div class="datatable-end"></div>
 
@@ -157,14 +157,14 @@ curl -X POST "${url}"
 | LastName         | (mandatory) Last name of the person                                                                              | string  |
 | HomePhone        | (optional) Home phone number                                                                                     | string  |
 | SSN              | (mandatory) Social Security Number of the person                                                                 | string  |
-|                  | (optional) Residences.Residence                                                                                  |         |
+|                  | (mandatory) Residences.Residence                                                                                 |         |
 | CurrentIndicator | Only mandatory when a residence has been added. Indicates whether the address is the current place of residence. | boolean |
 | Address          | Only mandatory when a residence has been added                                                                   | object  | 
-|                  | (optional) Residences.Residence.Address                                                                          |         |
-| AddressLine1     | (optional) Line1 of the residence of a person                                                                    | string  |
-| City             | (optional) City of the residence of a person                                                                     | string  |
-| State            | (optional) State of the residence of a person.  2-character code indicating which state.                         | string  |
-| PostalCode       | (optional) Zip code of the residence.  Either the 5 digit format or ZIP+4 format                                 | string  |
+|                  | (mandatory) Residences.Residence.Address                                                                         |         |
+| AddressLine1     | (mandatory) Line1 of the residence of a person                                                                   | string  |
+| City             | (mandatory) City of the residence of a person                                                                    | string  |
+| State            | (mandatory) State of the residence of a person.  2-character code indicating which state.                        | string  |
+| PostalCode       | (mandatory) Zip code of the residence.  Either the 5 digit format or ZIP+4 format                                | string  |
 
 <div class="datatable-end"></div>
 
