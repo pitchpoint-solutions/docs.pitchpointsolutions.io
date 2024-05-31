@@ -11,28 +11,14 @@ Beta
 ## Overview
 Your system is ordering an IRS Transcript through the 8821 form.
 
-## Obtaining Authentication Tokens
 
-To test your query, first obtain an access token for the PointServices platform.
-
-## Preferences
-Set the following order parameters via the preferences field.
-
-<div class="datatable-begin"></div>
-
-| Key                          | Description                                                                           | Type                                                                                                                                                                                                                                                                                                                                                                                            | Default |
-|------------------------------|---------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| IRS8821TaxClassificationType | Tax classification of the order                                                       | Individual,Company                                                                                                                                                                                                                                                                                                                                                                              |         |
-| IRS8821TaxYearsRequested     | comma separated list years requested. must be a set of this year and the past 3 years | csv                                                                                                                                                                                                                                                                                                                                                                                             |         |
-| IRS8821HasIRSAccount         | Attempt to use the IRS account                                                        | boolean                                                                                                                                                                                                                                                                                                                                                                                         |         |
-| IRS8821FormRequested         | Form requested                                                                        | 1040 - Record of Account<br/>1040 - Return Transcript<br/>W-2 - Employee Earnings<br/>1099 - Self-Employed Earnings<br/>1065 - Partnership Return Transcript<br/>1065 - Partnership Record of Account<br/>1120 - Corporate Return Transcript<br/>1120 - Corporate Record of Account<br/>1120S - S Corporation Return Transcript<br/>1120S - S Corporation Record of Account<br/>All Income Data |         |
-
-<div class="datatable-end"></div>
-
+{: .before_starting }
+Get from your Pitchpoint Representative the `ModelName` you will be sending your request to
 
 
 ### Step 1: Authenticate and Receive Tokens
 Refer to the [Authentication Guide](/developer_guides/authentication/access_token/) for detailed steps on authentication and token retrieval.
+
 
 ### Step 2: Place an order.
 
@@ -40,11 +26,17 @@ This request submits the order details along with a PDF that includes a complete
 
 Include the access token in the `Authorization` header following the `Bearer` keyword. Replace `your_access_token_here` with the actual token you obtained during the authentication process.
 
+{: .api_ref }
+For further explanation of required mandatory fields and their meanings, refer to [IRS8821 Transcript API Reference](/api/order/order_irs8821transcript)
+
+
 #### Example Individual request:
 The following example orders a W-2 - Employee Earnings transcript for an individual for the years 2023, 2022, and 2021.
 
+
+
 ```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
+curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/${ModelName} 
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
@@ -196,11 +188,81 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 }
 ```
 
-#### Example Company request:
+
+### Step 3: Check the response for a result using the URL provided in the Ref field.
+As you can see from the above response, it may take some time for the final report to be generated.  
+(`Messages.Message.Code = I004` -- The order was successfully submitted, but the PPS system has yet to complete the order.)  
+Using the url returned in the `Ref`, poll (we suggest every 10 minutes) until you receive the report.  
+
+
+```bash
+curl -X GET https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000000000000 
+-H "Authorization: Bearer your_access_token_here" 
+-H "Content-Type: application/json" 
+
+```
+
+
+#### Example response:
+
+
+```json
+{
+  "Attachments": {
+    "Attachment": [
+      {
+        "Classifier": "report",
+        "ContentDisposition": "inline; filename=\"W-2 - Employee Earnings.2023.pdf\"; creation-date=\"Thu, 30 May 2024 14:35:52 EDT\"; modification-date=\"Thu, 30 May 2024 14:35:52 EDT\"; read-date=\"Thu, 30 May 2024 14:35:52 EDT\"; size=253797",
+        "ContentType": "application/pdf",
+        "Document": "#BASE64PDF"
+      }
+    ]
+  },
+  "CorrelationID": "IndividualIRS8821W2",
+  "Messages": {
+    "Message": [
+      {
+        "Category": "Info",
+        "Code": "I001",
+        "Description": "Success"
+      }
+    ]
+  },
+  "Preferences": {
+    "Preference": [
+      {
+        "Key": "IncludeServicedOutputs",
+        "Value": "true"
+      }
+    ]
+  },
+  "Status": {
+    "Code": "S001",
+    "Description": "Serviceable"
+  },
+  "TransactionID": "0000000000000134063"
+}
+
+```
+
+The response came back with `Messages.Message.Code = I001` which indicates that the order has successfully completed.  The PDF bytes are in the 
+`Document` field, encoded as base64.  Decode to get the pdf.   
+
+Assuming the response json was saved into the file called `file.json`
+
+```bash
+# Using the json (bash) program called `jq`, select the object in the Attachments with classifier = report 
+# and use the (bash) program called `base64` to decode the file into `mypdf.pdf`
+
+jq -r '.Attachments.Attachment[] | select(.Classifier == "report") | .Document' file.json | base64 --decode > mypdf.pdf    
+```` 
+
+## Other Examples
+### Example Company request:
 The following example demonstrates how to order a W-2 - Employee Earnings transcript for a company for the years 2023 and 2022.
 
 ```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
+curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/${ModelName}
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
@@ -340,11 +402,11 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 ```
 
-#### Example invalid request:
+### Example invalid request:
 This would order a W-2 - Employee Earnings transcript for a Company for the years 2023, and 2022
 
 ```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
+curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/${ModelName} 
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
@@ -399,7 +461,10 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 '
 ```
 
+
 #### Example Response
+In this response, we see that `Messagges.Message.Category = Fault` so we know that the submission of this order failed.  
+Check the `Messages.Message.Description` for more details on how to correct.  
 
 ```json
 {
@@ -468,127 +533,4 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 ```
 
-#### Example Invalid request:
 
-```json
-{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "IndividualIRS8821W2",
-  "Messages": {
-    "Message": [
-      {
-        "Category": "Fault",
-        "Code": "E001",
-        "Description": "1980 is not a valid IRS8821TaxYearsRequested value. Valid values are 2024,2023,2022,2021."
-      }
-    ]
-  },
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Individual"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022,2021,1980"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
-      }
-    ]
-  },
-  "Ref": "http://localhost:8080/riskinsight-services-ws/resources/v1/sami/0000000000000134076",
-  "Status": {
-    "Code": "U001",
-    "Description": "Unserviceable"
-  },
-  "Terms": {
-    "Term": [
-      {
-        "personOrPropertyOrParticipant": {
-          "Person": {
-            "DOB": "01/28/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "601-602-2673",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "SSN": "111223333"
-          }
-        }
-      }
-    ]
-  },
-  "TransactionID": "0000000000000134076"
-}
-
-
-```
-
-
-### Step 3: Check the response for a result using the URL provided in the Ref field.
-
-
-
-```bash
-curl -X GET https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000000000000 
--H "Authorization: Bearer your_access_token_here" 
--H "Content-Type: application/json" 
-
-```
-
-#### Example response:
-
-
-```json
-{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "report",
-        "ContentDisposition": "inline; filename=\"W-2 - Employee Earnings.2023.pdf\"; creation-date=\"Thu, 30 May 2024 14:35:52 EDT\"; modification-date=\"Thu, 30 May 2024 14:35:52 EDT\"; read-date=\"Thu, 30 May 2024 14:35:52 EDT\"; size=253797",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "IndividualIRS8821W2",
-  "Messages": {
-    "Message": [
-      {
-        "Category": "Info",
-        "Code": "I001",
-        "Description": "Success"
-      }
-    ]
-  },
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IncludeServicedOutputs",
-        "Value": "true"
-      }
-    ]
-  },
-  "Status": {
-    "Code": "S001",
-    "Description": "Serviceable"
-  },
-  "TransactionID": "0000000000000134063"
-}
-
-```
- 

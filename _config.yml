@@ -64,6 +64,9 @@ callouts:
   api_ref:
     title: API Reference
     color: blue
+  before_starting:
+    title: Before Starting 
+    color: green
 
 collections:
   api:
