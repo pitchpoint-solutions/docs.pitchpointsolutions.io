@@ -2,7 +2,7 @@
 title: Querying
 layout: dev_guide
 parent: Orders
-nav_order: 1
+nav_order: 2
 ---
 Beta
 {: .label .label-yellow }
@@ -11,11 +11,7 @@ Beta
 ## Overview
 Your system needs to query your orders the point services platform.
 
-## Obtaining Authentication Tokens
-
-Before you can test your query, you must obtain an access token for the pointservices platform.
-
-### Step 1: Authenticate and Receive Tokens
+## Step 1: Authenticate and Receive Tokens
 See the [Authentication Guide](/developer_guides/authentication/access_token/) for more information on how to authenticate and receive your token.
 
 ### Step 2: Send your first request.
