@@ -1,5 +1,5 @@
 ---
-title: Ordering IRS8821 Transcripts
+title: IRS8821 Transcripts
 layout: dev_guide
 parent: Orders
 nav_order: 1
