@@ -127,12 +127,12 @@ curl -X POST "${url}"
 ##### Preferences.Preference
 <div class="datatable-begin"></div>
 
-| Key                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 | Type    |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| IRS8821TaxClassificationType | (mandatory) Tax classification of the order.  Must be one of `Individual` or `Company`                                                                                                                                                                                                                                                                                                                                                      | string  |
-| IRS8821TaxYearsRequested     | (mandatory) A comma separated list years requested.  Valid years are current year and up to 4 years ago.  E.g. This year is 2024.  Therefore valid years are: 2024,2023,2022,2021,2020                                                                                                                                                                                                                                                      | string  |
-| IRS8821HasIRSAccount         | (mandatory) Boolean indicating whether or not to attempt to use the IRS account                                                                                                                                                                                                                                                                                                                                                             | boolean |
-| IRS8821FormRequested         | (mandatory) Form requested type.  Must be one of `1040 - Record of Account`, `1040 - Return Transcript`, `W-2 - Employee Earnings`, `1099 - Self-Employed Earnings`, `1065 - Partnership Return Transcript`, `1065 - Partnership Record of Account`, `1120 - Corporate Return Transcript`, `1120 - Corporate Record of Account`, `1120S - S Corporation Return Transcript`, `1120S - S Corporation Record of Account`, or `All Income Data` | string  |
+| Key                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Type    |
+|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| IRS8821TaxClassificationType | (mandatory) Tax classification of the order.  Must be one of `Individual` or `Company`                                                                                                                                                                                                                                                                                                                                                                                                             | string  |
+| IRS8821TaxYearsRequested     | (mandatory) A comma separated list years requested.  Valid years are current year and up to 4 years ago.  E.g. This year is 2024.  Therefore valid years are: 2024,2023,2022,2021,2020                                                                                                                                                                                                                                                                                                             | string  |
+| IRS8821HasIRSAccount         | (mandatory) Boolean indicating whether or not to attempt to use the IRS account                                                                                                                                                                                                                                                                                                                                                                                                                    | boolean |
+| IRS8821FormRequested         | (mandatory) Form requested type.  Must be one of <br/>`1040 - Record of Account`,<br/> `1040 - Return Transcript`, <br/>`W-2 - Employee Earnings`, <br/>`1099 - Self-Employed Earnings`, <br/>`1065 - Partnership Return Transcript`, <br/>`1065 - Partnership Record of Account`, <br/>`1120 - Corporate Return Transcript`, <br/>`1120 - Corporate Record of Account`, <br/>`1120S - S Corporation Return Transcript`, <br/>`1120S - S Corporation Record of Account`, <br/>or `All Income Data` | string  |
 
 <div class="datatable-end"></div>
 
@@ -149,38 +149,37 @@ curl -X POST "${url}"
 ##### Terms.Term.personOrPropertyOrParticipant.Person
 <div class="datatable-begin"></div>
 
-| Property         | Description                                                                                                      | Type    |
-|------------------|------------------------------------------------------------------------------------------------------------------|---------|
-| DOB              | (optional) Date of Birth -- in the `MM/DD/YYYY` format                                                           | string  |
-| FirstName        | (mandatory) First name of the person                                                                             | string  |
-| MiddleName       | (optional) Middle name of the person                                                                             | string  |
-| LastName         | (mandatory) Last name of the person                                                                              | string  |
-| HomePhone        | (optional) Home phone number                                                                                     | string  |
-| SSN              | (mandatory) Social Security Number of the person                                                                 | string  |
-|                  | (mandatory) Residences.Residence                                                                                 |         |
-| CurrentIndicator | Only mandatory when a residence has been added. Indicates whether the address is the current place of residence. | boolean |
-| Address          | Only mandatory when a residence has been added                                                                   | object  | 
-|                  | (mandatory) Residences.Residence.Address                                                                         |         |
-| AddressLine1     | (mandatory) Line1 of the residence of a person                                                                   | string  |
-| City             | (mandatory) City of the residence of a person                                                                    | string  |
-| State            | (mandatory) State of the residence of a person.  2-character code indicating which state.                        | string  |
-| PostalCode       | (mandatory) 5 digit zip code of the residence.                        | string  |
+| Property         | Description                                                                               | Type    |
+|------------------|-------------------------------------------------------------------------------------------|---------|
+| DOB              | (optional) Date of Birth -- in the `MM/DD/YYYY` format                                    | string  |
+| FirstName        | (mandatory) First name of the person                                                      | string  |
+| MiddleName       | (optional) Middle name of the person                                                      | string  |
+| LastName         | (mandatory) Last name of the person                                                       | string  |
+| HomePhone        | (optional) Home phone number                                                              | string  |
+| SSN              | (mandatory) Social Security Number of the person                                          | string  |
+|                  | (mandatory) Residences.Residence                                                          |         |
+| CurrentIndicator | (mandatory) Indicates whether the address is the current place of residence.              | boolean |
+|                  | (mandatory) Residences.Residence.Address                                                  |         |
+| AddressLine1     | (mandatory) Line1 of the residence of a person                                            | string  |
+| City             | (mandatory) City of the residence of a person                                             | string  |
+| State            | (mandatory) State of the residence of a person.  2-character code indicating which state. | string  |
+| PostalCode       | (mandatory) 5 digit zip code of the residence.                                            | string  |
 
 <div class="datatable-end"></div>
 
 ##### Terms.Term.personOrPropertyOrParticipant.Participant
 <div class="datatable-begin"></div>
 
-| Property     | Description                                                                                     | Type         |
-|--------------|-------------------------------------------------------------------------------------------------|--------------|
-| CompanyName  | (mandatory) Company name                                                                        | string       |
-|              | (mandatory) Items.ParticipantItem                                                               | object/array |
-| Key          | (mandatory) Must be the value `TaxIdentificationEIN`                                            | string       | 
-| Value        | (mandatory) Employer Identification Number                                                      | string       |
-|              | (mandatory) Address                                                                             | object       |
-| AddressLine1 | (mandatory) Line1 of the company address                                                        | string       | 
-| City         | (mandatory) City of the company address                                                         | string       | 
-| State        | (mandatory) 2-character code of the companys' state                                             | string       | 
+| Property     | Description                                          | Type         |
+|--------------|------------------------------------------------------|--------------|
+| CompanyName  | (mandatory) Company name                             | string       |
+|              | (mandatory) Items.ParticipantItem                    | object/array |
+| Key          | (mandatory) Must be the value `TaxIdentificationEIN` | string       | 
+| Value        | (mandatory) Employer Identification Number           | string       |
+|              | (mandatory) Address                                  | object       |
+| AddressLine1 | (mandatory) Line1 of the company address             | string       | 
+| City         | (mandatory) City of the company address              | string       | 
+| State        | (mandatory) 2-character code of the company's state  | string       | 
 | PostalCode   | (mandatory) 5 digit zip code of the company address. | string       | 
 
 <div class="datatable-end"></div>
@@ -197,17 +196,17 @@ The input data is echo-ed back with following additional fields:
 
 <div class="datatable-begin"></div>
 
-| Property      | Description                                                                                                                                                                                                                 | Type   |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
-| TransactionID | A Pitchpoint generated identifying string to uniquely identify this loan                                                                                                                                                    | string |  
-|               | Messages.Message -- A list of messages regarding the result of the order                                                                                                                                                    |        |
-| Category      | Typically one of `Info` or `Fault` to indicate whether or not this is an information message or an error message.                                                                                                           | string |
-| Code          | An error code.                                                                                                                                                                                                              | string |
-| Description   | Description of the message                                                                                                                                                                                                  | string |
-| Ref           | The url to query to retrieve the results of the order                                                                                                                                                                       | string | 
-|               | Status -- An object that states the current status of the order as related to billing matters.                                                                                                                              |        | 
-| Code          | The status code.  This will typically be `U001` during the ordering phase as Pitchpoint has not completed generating the reports. However once the report has been successfully generated this will typically become `S001` | string |
-| Description   | A description of the code                                                                                                                                                                                                   | string |
+| Property      | Description                                                                                                                                                                                                                                                                                 | Type   |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| TransactionID | A Pitchpoint generated identifying string to uniquely identify this loan                                                                                                                                                                                                                    | string |  
+|               | Messages.Message -- A list of messages regarding the result of the order                                                                                                                                                                                                                    |        |
+| Category      | Typically one of `Info` or `Fault` to indicate whether or not this is an information message or an error message.                                                                                                                                                                           | string |
+| Code          | Unique code for the `Message`.  Typically, this is `I004` when an order has initially been submitted, as PPS is still processing the order.  When the report has successfully been generated, you should see a value of `I001`.  A value starting with `EXXX` generally indicates an error. | string |
+| Description   | Description of the message                                                                                                                                                                                                                                                                  | string |
+| Ref           | The url to query to retrieve the results of the order                                                                                                                                                                                                                                       | string | 
+|               | Status -- An object that states the current status of the order as related to billing matters.                                                                                                                                                                                              |        | 
+| Code          | The status code.  This will typically be `U001` during the ordering phase as Pitchpoint has not completed generating the reports. However once the report has been successfully generated this will typically become `S001`                                                                 | string |
+| Description   | A description of the code                                                                                                                                                                                                                                                                   | string |
 
 
 <div class="datatable-end"></div>
