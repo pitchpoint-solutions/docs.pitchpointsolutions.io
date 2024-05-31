@@ -13,10 +13,10 @@ Your system is ordering an IRS Transcript through the 8821 form.
 
 ## Obtaining Authentication Tokens
 
-Before you can test your query, you must obtain an access token for the pointservices platform.
+To test your query, first obtain an access token for the PointServices platform.
 
 ## Preferences
-The following order parameters are set through the preferences field
+Set the following order parameters via the preferences field.
 
 <div class="datatable-begin"></div>
 
@@ -32,16 +32,16 @@ The following order parameters are set through the preferences field
 
 
 ### Step 1: Authenticate and Receive Tokens
-See the [Authentication Guide](/developer_guides/authentication/access_token/) for more information on how to authenticate and receive your token.
+Refer to the [Authentication Guide](/developer_guides/authentication/access_token/) for detailed steps on authentication and token retrieval.
 
 ### Step 2: Place an order.
 
-This request will submit the order details combined with a PDF that contains a completed 8821 form and the consent form.
+This request submits the order details along with a PDF that includes a completed 8821 form and the consent form.
 
-Incorporate the access token in the `Authorization` header after the `Bearer` type as follows, replacing `your_access_token_here` with the actual token you received in the `access_token` field from the authentication process.
+Include the access token in the `Authorization` header following the `Bearer` keyword. Replace `your_access_token_here` with the actual token you obtained during the authentication process.
 
 #### Example Individual request:
-This would order a W-2 - Employee Earnings transcript for an individual for the years 2023, 2022, and 2021
+The following example orders a W-2 - Employee Earnings transcript for an individual for the years 2023, 2022, and 2021.
 
 ```bash
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
@@ -197,7 +197,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 ```
 
 #### Example Company request:
-This would order a W-2 - Employee Earnings transcript for a Company for the years 2023, and 2022
+The following example demonstrates how to order a W-2 - Employee Earnings transcript for a company for the years 2023 and 2022.
 
 ```bash
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
@@ -539,7 +539,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 ```
 
 
-### Step 3: Check for a result in the URL from the Ref field in the response.
+### Step 3: Check the response for a result using the URL provided in the Ref field.
 
 
 
