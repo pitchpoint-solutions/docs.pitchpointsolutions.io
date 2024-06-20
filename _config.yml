@@ -61,19 +61,28 @@ callouts:
   warning:
     title: Warning
     color: red
+  api_ref:
+    title: API Reference
+    color: blue
+  before_starting:
+    title: Before Starting 
+    color: green
 
 collections:
-  webhooks:
+  api:
     permalink: "/:collection/:path/"
     output: true
+  developer_guides:
+    permalink: "/:collection/:path/"
+    output: true
+
 
 just_the_docs:
   # Define which collections are used in just-the-docs
   collections:
-    # Reference the "webhooks" collection
-    webhooks:
+    developer_guides:
       # Give the collection a name
-      name: Webhooks
+      name: Developer Guides
       # Exclude the collection from the navigation
       # Supports true or false (default)
       nav_exclude: false
@@ -83,4 +92,18 @@ just_the_docs:
       # Exclude the collection from the search
       # Supports true or false (default)
       # search_exclude: true
+    api:
+      # Give the collection a name
+      name: API References
+      # Exclude the collection from the navigation
+      # Supports true or false (default)
+      nav_exclude: false
+      # Fold the collection in the navigation
+      # Supports true or false (default)
+      nav_fold: true  # note: this option is new in v0.4
+      # Exclude the collection from the search
+      # Supports true or false (default)
+      # search_exclude: true
+
+
 

@@ -1,9 +1,11 @@
 ---
 title: Implementation
-layout: default
+layout: dev_guide
+parent: Webhooks
 nav_order: 1
 ---
-
+Coming soon
+{: .label .label-yellow }
 # Webhook Endpoint Implementation Guide
 
 ## Overview
@@ -27,7 +29,7 @@ When your endpoint receives a webhook, it will contain the following headers:
 
 ## Handling Webhooks
 ### Verifying Webhook Authenticity
-See the [Verification Guide](/webhooks/verification)
+See the [Verification Guide](/developer_guides/webhooks/verification)
 
 ### Processing Webhook Events
 - Use the `X-Pps-Topic` header to determine the type of event and process accordingly.
