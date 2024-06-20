@@ -8,14 +8,19 @@ datatable: true
 Stable
 {: .label .label-green }
 
-## Order
+## DetailedBLJ
+{:.no_toc}
 
 Ordering a DetailedBLJ product. 
 
 {: .before_starting }
 Get the URL from your Pitchpoint Account Representative of where you should be submitting your orders to. 
 
+* TOC
+{: toc}
 
+
+### Sample
 ```bash
 url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/DetailedBLJ/PDF-001"
 curl -X POST "${url}"
@@ -82,26 +87,35 @@ The input data is echo-ed back with following additional fields:
 
 <div class="datatable-begin"></div>
 
-| Property                               | Description                                                                                                                                             | Type   |
-|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
-| TransactionID                          | A Pitchpoint generated identifying string to uniquely identify this loan                                                                                | string |  
-|                                        | Messages.Message -- A list of messages regarding the result of the order                                                                                |        |
-| Category                               | Typically one of `Info` or `Fault` to indicate whether or not this is an information message or an error message.                                       | string |
-| Code                                   | Unique code for the `Message`.  Typically, this is `I001` when a report has been generated.  A value starting with `EXXX` generally indicates an error. | string |
-| Description                            | Description of the message                                                                                                                              | string |
-| Ref                                    | The url to query to retrieve the results of the order                                                                                                   | string | 
-|                                        | Status -- An object that states the current status of the order as related to billing matters.                                                          |        | 
-| Code                                   | The status code.  This will typically be `S001`                                                                                                         | string |
-| Description                            | A description of the code                                                                                                                               | string |
-|                                        | Attachments -- A list of report(s).  Depending on your particular product configuration, you may get one or two reports.                                |        |
-| Attachment                             |                                                                                                                                                         | object |
-| Attachment.Document                    | A base64 encoded file                                                                                                                                   | string | 
-| Attachment.Classifier                  | Indicates what type of Attachment this is.  Typically `report`                                                                                          | string |
-| Attachment.ContentDisposition          | Metadata about the file                                                                                                                                 | string | 
-| Attachment.ContentType                 | The mimetype of the file                                                                                                                                | string |
-|                                        |                                                                                                                                                         |        | 
-| Attachment.Extension                   |                                                                                                                                                         |        |
-| Attachment.Extension.DetailedBLJReport | an xml representation of the report                                                                                                                     | object |
+| Property      | Description                                                                                                                                             | Type   |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| TransactionID | A Pitchpoint generated identifying string to uniquely identify this loan                                                                                | string |  
+|               | Messages.Message -- A list of messages regarding the result of the order                                                                                |        |
+| Category      | Typically one of `Info` or `Fault` to indicate whether or not this is an information message or an error message.                                       | string |
+| Code          | Unique code for the `Message`.  Typically, this is `I001` when a report has been generated.  A value starting with `EXXX` generally indicates an error. | string |
+| Description   | Description of the message                                                                                                                              | string |
+| Ref           | The url to query to retrieve the results of the order                                                                                                   | string | 
+|               | Status -- An object that states the current status of the order as related to billing matters.                                                          |        | 
+| Code          | The status code.  This will typically be `S001`                                                                                                         | string |
+| Description   | A description of the code                                                                                                                               | string |
+|               | Attachments -- A list of report(s).  Depending on your particular product configuration, you may get one or two reports.                                |        |
+| Attachments   | See section below for more details                                                                                                                      | object |
+
+<div class="datatable-end"></div>
+
+#### Attachments.Attachment
+
+<div class="datatable-begin"></div>
+
+| Property                    | Description                                                    | Type   |
+|-----------------------------|----------------------------------------------------------------|--------|
+| Document                    | A base64 encoded file                                          | string | 
+| Classifier                  | Indicates what type of Attachment this is.  Typically `report` | string |
+| ContentDisposition          | Metadata about the file                                        | string | 
+| ContentType                 | The mimetype of the file                                       | string |
+|                             |                                                                |        | 
+| Extension                   |                                                                |        |
+| Extension.DetailedBLJReport | an xml representation of the report                            | object |
 
 
 <div class="datatable-end"></div>

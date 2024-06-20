@@ -7,6 +7,12 @@ nav_order: 2
 Stable
 {: .label .label-green }
 # DetailedBLJ Ordering Guide
+{:.no_toc}
+
+
+* TOC
+{: toc}
+
 
 ## Overview
 Your system is ordering a Detailed BLJ.
@@ -15,12 +21,11 @@ Your system is ordering a Detailed BLJ.
 {: .before_starting }
 Get the URL from your Pitchpoint Account Representative of where you should be submitting your orders to.
 
-
 ### Step 1: Authenticate and Receive Tokens
 Refer to the [Authentication Guide](/developer_guides/authentication/access_token/) for detailed steps on authentication and token retrieval.
 
 
-### Step 2: Place an order.
+### Step 2: Place an order
 
 This request submits the order details.
 
@@ -30,7 +35,7 @@ Include the access token in the `Authorization` header following the `Bearer` ke
 For further explanation of required mandatory fields and their meanings, refer to [DetailedBLJ API Reference](/api/order/order_detailedblj)
 
 
-#### Example request:
+#### Example request
 The following example orders a DetailedBLJ report.  The configured product has been configured to return a PDF report.  
 
 
@@ -57,7 +62,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 
 
-#### Example response:
+#### Example response
 
 The following example response is from a product that was configured with only the PDF report to be returned. 
 
@@ -99,7 +104,7 @@ The following example response is from a product that was configured with only t
 
 
 ## Other Examples
-### Example Product is configured to return a PDF and an XML report:
+### Two Reports Returned in Response
 The following example orders a DetailedBLJ report.  The product has been configured to return both a PDF and an XML report. 
 
 ```bash
@@ -121,7 +126,9 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 '
 ```
 
-#### Example Response:
+#### Example Response
+{:.no_toc}
+
 Notice in the `Attachments` section there are two `Attachment`.  One for the base64 encode PDF file, the other is the XML report.  
 
 
@@ -183,7 +190,7 @@ Notice in the `Attachments` section there are two `Attachment`.  One for the bas
 
 ```
 
-### Example invalid request:
+### Missing Input Data 
 First name is missing. 
 
 ```bash
@@ -207,6 +214,8 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 
 #### Example Response
+{:.no_toc}
+
 In this response, we see that `Messagges.Message.Category = Fault` so we know that the submission of this order failed.  
 Check the `Messages.Message.Description` for more details on how to correct.  
 
@@ -240,7 +249,7 @@ Check the `Messages.Message.Description` for more details on how to correct.
 
 ```
 
-### Example Error Report 
+### Error Report 
 In this sample response, the product was configured to only return an XML report.  The request succeed, but there was a mismatch between name and SSN. 
 
 ```xml
