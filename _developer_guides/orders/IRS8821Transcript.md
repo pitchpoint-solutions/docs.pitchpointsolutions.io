@@ -2,11 +2,17 @@
 title: IRS8821 Transcripts
 layout: dev_guide
 parent: Orders
-nav_order: 1
+nav_order: 2
 ---
 Beta
 {: .label .label-yellow }
 # IRS 8821 Transcript Ordering Guide
+{:.no_toc}
+
+* TOC
+{: toc}
+
+
 
 ## Overview
 Your system is ordering an IRS Transcript through the 8821 form.
@@ -20,7 +26,7 @@ Get the URL from your Pitchpoint Account Representative of where you should be s
 Refer to the [Authentication Guide](/developer_guides/authentication/access_token/) for detailed steps on authentication and token retrieval.
 
 
-### Step 2: Place an order.
+### Step 2: Place an order
 
 This request submits the order details along with a PDF that includes a completed 8821 form and the consent form.
 
@@ -30,7 +36,7 @@ Include the access token in the `Authorization` header following the `Bearer` ke
 For further explanation of required mandatory fields and their meanings, refer to [IRS8821 Transcript API Reference](/api/order/order_irs8821transcript)
 
 
-#### Example Individual request:
+#### Example Individual request
 The following example orders a W-2 - Employee Earnings transcript for an individual for the years 2023, 2022, and 2021.
 
 
@@ -107,7 +113,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 
 
-#### Example response:
+#### Example response
 
 ```json
 {
@@ -189,7 +195,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 ```
 
 
-### Step 3: Check the response for a result using the URL provided in the Ref field.
+### Step 3: Check the response for a result using the URL provided in the Ref field
 As you can see from the above response, it may take some time for the final report to be generated.  
 (`Messages.Message.Code = I004` -- The order was successfully submitted, but the PPS system has yet to complete the order.)  
 Using the url returned in the `Ref`, poll (we suggest every 10 minutes) until you receive the report.  
@@ -203,7 +209,7 @@ curl -X GET https://api.pointservices.com/riskinsight-services-ws/resources/v1/s
 ```
 
 
-#### Example response:
+#### Example response
 
 
 ```json
@@ -258,7 +264,7 @@ jq -r '.Attachments.Attachment[] | select(.Classifier == "report") | .Document' 
 ```` 
 
 ## Other Examples
-### Example Company request:
+### Company Request
 The following example demonstrates how to order a W-2 - Employee Earnings transcript for a company for the years 2023 and 2022.
 
 ```bash
@@ -325,7 +331,9 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 '
 ```
 
-#### Example Response:
+#### Example Response
+{:.no_toc}
+
 ```json
 {
   "Attachments": {
@@ -402,7 +410,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 ```
 
-### Example invalid request:
+### Invalid Request
 This would order a W-2 - Employee Earnings transcript for a Company for the years 2023, and 2022
 
 ```bash
@@ -463,6 +471,8 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 
 #### Example Response
+{:.no_toc}
+
 In this response, we see that `Messagges.Message.Category = Fault` so we know that the submission of this order failed.  
 Check the `Messages.Message.Description` for more details on how to correct.  
 
