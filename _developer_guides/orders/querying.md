@@ -2,7 +2,7 @@
 title: Querying
 layout: dev_guide
 parent: Orders
-nav_order: 2
+nav_order: 3
 ---
 Beta
 {: .label .label-yellow }

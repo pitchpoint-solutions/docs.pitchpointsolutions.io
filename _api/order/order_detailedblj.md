@@ -1,102 +1,47 @@
 ---
-title: IRS4506 Transcript
+title: DetailedBLJ
 layout: api_ref
 nav_order: 2
 parent: Order
 datatable: true
 ---
-Beta
-{: .label .label-yellow }
+Stable
+{: .label .label-green }
 
 ## Order
 
-Ordering an IRS8821Transcript product. 
+Ordering a DetailedBLJ product. 
 
 {: .before_starting }
 Get the URL from your Pitchpoint Account Representative of where you should be submitting your orders to. 
 
 
 ```bash
-url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001"
-# use the `base64` program to encode the pdf file in base64 
-file=$( base64 test-pdf.pdf )
-data='{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "%%FILE_DATA%%"
-      }
-    ]
-  },
-  "CorrelationID": "IndividualIRS8821W2",
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Individual"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022,2021"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
-      }
-    ]
-  },
-  "Terms": {
-    "Term": [
-      {
-        "personOrPropertyOrParticipant": {
-          "Person": {
-            "DOB": "01/15/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "212-555-1234",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "Residences": {
-              "Residence": [
-                {
-                  "Address": {
-                    "AddressLine1": "12 Any St",
-                    "City": "New York",
-                    "PostalCode": "21200",
-                    "State": "NY"
-                  },
-                  "CurrentIndicator": true
-                }
-              ]
-            },
-            "SSN": "111223333"
-          }
-        }
-      }
-    ]
-  }
-}'
-# Replace the place holder %%FILE_DATA%% with the actual base64 encoded bytes 
-data=$(echo "$data" | sed "s/%%FILE_DATA%%/$file/g")
-
+url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/DetailedBLJ/PDF-001"
 curl -X POST "${url}"
 -H "Authorization: Bearer your_access_token_here" 
--H "Content-Type: application/json" 
--d "${data}"
+-H "Content-Type: application/xml" 
+-d '<Sami>
+    <CorrelationID>alpha_numeric_string_to_help_identify_this_order</CorrelationID>
+   <Terms>
+     <Term>
+        <Person>
+            <FirstName>Janet</FirstName>
+            <LastName>Elahi</LastName>
+            <SSN>111111111</SSN>
+        </Person>
+     </Term>
+   </Terms>
+</Sami>'
 ```
 
 #### Header Properties
 <div class="datatable-begin"></div>
 
-| Property      | Value            | Required? |
-|-------------- |------------------|-----------|
-| Content-Type  | application/json | true      |
-| Accept        | application/json | false     |
+| Property      | Value           | Required? |
+|-------------- |-----------------|-----------|
+| Content-Type  | application/xml | true      |
+| Accept        | application/xml | false     |
 
 <div class="datatable-end"></div>
 
@@ -106,84 +51,25 @@ curl -X POST "${url}"
 
 | Property      | Description                                                                                           | Type   | Default |
 |---------------|-------------------------------------------------------------------------------------------------------|--------|---------|
-| Attachments   | (mandatory) See section below for more details.                                                       | object |         |
 | CorrelationID | (mandatory) A user-defined reference number to help identify the order.  Does not need to be unique.  | string |         |
-| Preferences   | (mandatory) See section below for more details.                                                       | object |         |
 | Terms         | (mandatory) See section below for more details.                                                       | object |         |
 
 <div class="datatable-end"></div>
 
-##### Attachments.Attachment
-<div class="datatable-begin"></div>
 
-| Property    | Description                                                                             | Type   |
-|-------------|-----------------------------------------------------------------------------------------|--------|
-| Classifier  | (mandatory) Must be the string `irs8821TranscriptAuthorizationConsentCombined`          | string |
-| ContentType | (mandatory) The mime-type for the input file.  Typically this will be `application/pdf` | string |
-| Document    | (mandatory) The base64 encoded bytes of the file                                        | string |
-
-<div class="datatable-end"></div>
-
-##### Preferences.Preference
-<div class="datatable-begin"></div>
-
-| Key                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Type    |
-|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| IRS8821TaxClassificationType | (mandatory) Tax classification of the order.  Must be one of `Individual` or `Company`                                                                                                                                                                                                                                                                                                                                                                                                             | string  |
-| IRS8821TaxYearsRequested     | (mandatory) A comma separated list years requested.  Valid years are current year and up to 4 years ago.  E.g. This year is 2024.  Therefore valid years are: 2024,2023,2022,2021,2020                                                                                                                                                                                                                                                                                                             | string  |
-| IRS8821HasIRSAccount         | (mandatory) Boolean indicating whether or not to attempt to use the IRS account                                                                                                                                                                                                                                                                                                                                                                                                                    | boolean |
-| IRS8821FormRequested         | (mandatory) Form requested type.  Must be one of <br/>`1040 - Record of Account`,<br/> `1040 - Return Transcript`, <br/>`W-2 - Employee Earnings`, <br/>`1099 - Self-Employed Earnings`, <br/>`1065 - Partnership Return Transcript`, <br/>`1065 - Partnership Record of Account`, <br/>`1120 - Corporate Return Transcript`, <br/>`1120 - Corporate Record of Account`, <br/>`1120S - S Corporation Return Transcript`, <br/>`1120S - S Corporation Record of Account`, <br/>or `All Income Data` | string  |
-
-<div class="datatable-end"></div>
-
-##### Terms.Term.personOrPropertyOrParticipant
-<div class="datatable-begin"></div>
-
-| Property    | Description                                                                                                                        | Type   |
-|-------------|------------------------------------------------------------------------------------------------------------------------------------|--------|
-| Person      | One of `Person` or `Participant` must be defined.  See section below for more details.                                             | object |
-| Participant | One of `Person` or `Participant` must be defined.  See section below for more details.                                             | object |
-
-<div class="datatable-end"></div>
-
-##### Terms.Term.personOrPropertyOrParticipant.Person
+##### Terms.Term.Person
 <div class="datatable-begin"></div>
 
 | Property         | Description                                                                               | Type    |
 |------------------|-------------------------------------------------------------------------------------------|---------|
-| DOB              | (optional) Date of Birth -- in the `MM/DD/YYYY` format                                    | string  |
 | FirstName        | (mandatory) First name of the person                                                      | string  |
 | MiddleName       | (optional) Middle name of the person                                                      | string  |
 | LastName         | (mandatory) Last name of the person                                                       | string  |
+| DOB              | (optional) Date of Birth -- in the `MM/DD/YYYY` format                                    | string  |
 | HomePhone        | (optional) Home phone number                                                              | string  |
 | SSN              | (mandatory) Social Security Number of the person                                          | string  |
-|                  | (mandatory) Residences.Residence                                                          |         |
-| CurrentIndicator | (mandatory) Indicates whether the address is the current place of residence.              | boolean |
-|                  | (mandatory) Residences.Residence.Address                                                  |         |
-| AddressLine1     | (mandatory) Line1 of the residence of a person                                            | string  |
-| City             | (mandatory) City of the residence of a person                                             | string  |
-| State            | (mandatory) State of the residence of a person.  2-character code indicating which state. | string  |
-| PostalCode       | (mandatory) 5 digit zip code of the residence.                                            | string  |
 
 <div class="datatable-end"></div>
-
-##### Terms.Term.personOrPropertyOrParticipant.Participant
-<div class="datatable-begin"></div>
-
-| Property     | Description                                          | Type         |
-|--------------|------------------------------------------------------|--------------|
-| CompanyName  | (mandatory) Company name                             | string       |
-|              | (mandatory) Items.ParticipantItem                    | object/array |
-| Key          | (mandatory) Must be the value `TaxIdentificationEIN` | string       | 
-| Value        | (mandatory) Employer Identification Number           | string       |
-|              | (mandatory) Address                                  | object       |
-| AddressLine1 | (mandatory) Line1 of the company address             | string       | 
-| City         | (mandatory) City of the company address              | string       | 
-| State        | (mandatory) 2-character code of the company's state  | string       | 
-| PostalCode   | (mandatory) 5 digit zip code of the company address. | string       | 
-
-<div class="datatable-end"></div>
-
 
 
 
@@ -196,39 +82,84 @@ The input data is echo-ed back with following additional fields:
 
 <div class="datatable-begin"></div>
 
-| Property      | Description                                                                                                                                                                                                                                                                                 | Type   |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
-| TransactionID | A Pitchpoint generated identifying string to uniquely identify this loan                                                                                                                                                                                                                    | string |  
-|               | Messages.Message -- A list of messages regarding the result of the order                                                                                                                                                                                                                    |        |
-| Category      | Typically one of `Info` or `Fault` to indicate whether or not this is an information message or an error message.                                                                                                                                                                           | string |
-| Code          | Unique code for the `Message`.  Typically, this is `I004` when an order has initially been submitted, as PPS is still processing the order.  When the report has successfully been generated, you should see a value of `I001`.  A value starting with `EXXX` generally indicates an error. | string |
-| Description   | Description of the message                                                                                                                                                                                                                                                                  | string |
-| Ref           | The url to query to retrieve the results of the order                                                                                                                                                                                                                                       | string | 
-|               | Status -- An object that states the current status of the order as related to billing matters.                                                                                                                                                                                              |        | 
-| Code          | The status code.  This will typically be `U001` during the ordering phase as Pitchpoint has not completed generating the reports. However once the report has been successfully generated this will typically become `S001`                                                                 | string |
-| Description   | A description of the code                                                                                                                                                                                                                                                                   | string |
+| Property                               | Description                                                                                                                                             | Type   |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| TransactionID                          | A Pitchpoint generated identifying string to uniquely identify this loan                                                                                | string |  
+|                                        | Messages.Message -- A list of messages regarding the result of the order                                                                                |        |
+| Category                               | Typically one of `Info` or `Fault` to indicate whether or not this is an information message or an error message.                                       | string |
+| Code                                   | Unique code for the `Message`.  Typically, this is `I001` when a report has been generated.  A value starting with `EXXX` generally indicates an error. | string |
+| Description                            | Description of the message                                                                                                                              | string |
+| Ref                                    | The url to query to retrieve the results of the order                                                                                                   | string | 
+|                                        | Status -- An object that states the current status of the order as related to billing matters.                                                          |        | 
+| Code                                   | The status code.  This will typically be `S001`                                                                                                         | string |
+| Description                            | A description of the code                                                                                                                               | string |
+|                                        | Attachments -- A list of report(s).  Depending on your particular product configuration, you may get one or two reports.                                |        |
+| Attachment                             |                                                                                                                                                         | object |
+| Attachment.Document                    | A base64 encoded file                                                                                                                                   | string | 
+| Attachment.Classifier                  | Indicates what type of Attachment this is.  Typically `report`                                                                                          | string |
+| Attachment.ContentDisposition          | Metadata about the file                                                                                                                                 | string | 
+| Attachment.ContentType                 | The mimetype of the file                                                                                                                                | string |
+|                                        |                                                                                                                                                         |        | 
+| Attachment.Extension                   |                                                                                                                                                         |        |
+| Attachment.Extension.DetailedBLJReport | an xml representation of the report                                                                                                                     | object |
 
 
 <div class="datatable-end"></div>
 
 Example:
-```json
-{
-  "TransactionID": "0000000000000134076",
-  "Messages": {
-    "Message": [
-      {
-        "Category": "Fault",
-        "Code": "E001",
-        "Description": "1980 is not a valid IRS8821TaxYearsRequested value. Valid values are 2024,2023,2022,2021."
-      }
-    ]
-  },
-  "Ref": "http://localhost:8080/riskinsight-services-ws/resources/v1/sami/0000000000000134076",
-  "Status": {
-    "Code": "U001",
-    "Description": "Unserviceable"
-  },
-  "(echoed input data)": ...,
-}
+```xml
+<Sami>
+    <TransactionID>0000000000001689431</TransactionID>
+    <CorrelationID>alpha_numeric_string_to_help_identify_this_order</CorrelationID>
+    <Terms>
+        <Term>
+            <Person>
+                <FirstName>Janet</FirstName>
+                <LastName>Elahi</LastName>
+                <SSN>111111111</SSN>
+            </Person>
+        </Term>
+    </Terms>
+    <Attachments>
+        <Attachment>
+            <Document>JVBERi0xLjUKJd/++LIKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMyA...</Document>
+            <Classifier>report</Classifier>
+            <ContentDisposition>inline; filename="PersonDetailedBLJ"; creation-date="Thu, 19 Apr 2018 08:56:29 EDT"; modification-date="Thu, 19 Apr 2018 08:56:29 EDT"; read-date="Thu, 19 Apr 2018 08:56:29 EDT"; size=3766</ContentDisposition>
+            <ContentType>application/pdf</ContentType>
+        </Attachment>
+        <Attachment>
+            <Extension>
+                <DetailedBLJReport>
+                    <Filters>
+                        <ExcludeBankruptcies>false</ExcludeBankruptcies>
+                        <SkipNameValidation>false</SkipNameValidation>
+                        <FilterVerbiage>Judgment satisfied = 7 years; Judgment unsatisfied = 7 years; Lien released = 7 years; Lien unreleased = 10 years; Bankruptcy chapter 7 or 11 dismissed or discharged = 10 years; Bankruptcy chapter 7 or 11 not dismissed or discharged = 10 years; Bankruptcy chapter 13 dismissed or discharged = 7 years; Bankruptcy chapter 13 not dismissed or discharged = 10 years</FilterVerbiage>
+                    </Filters>
+                    <BankruptciesFound>0</BankruptciesFound>
+                    <JudgmentsFound>0</JudgmentsFound>
+                    <LiensFound>0</LiensFound>
+                    <Messages>
+                        <Message>
+                            <Code>0</Code>
+                            <Text>No Errors</Text>
+                        </Message>
+                    </Messages>
+                </DetailedBLJReport>
+            </Extension>
+            <ContentType>text/xml</ContentType>
+        </Attachment>
+    </Attachments>
+    <Messages>
+        <Message>
+            <Category>Info</Category>
+            <Code>I001</Code>
+            <Description>Success</Description>
+        </Message>
+    </Messages>
+    <Status>
+        <Code>S001</Code>
+        <Description>Serviceable</Description>
+    </Status>
+    <Ref>https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000001689431</Ref>
+</Sami>
 ```
