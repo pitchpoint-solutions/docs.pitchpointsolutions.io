@@ -104,12 +104,12 @@ curl -X POST "${url}"
 #### Request Data Properties
 <div class="datatable-begin"></div>
 
-| Property      | Description                                                                                           | Type   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------|--------|---------|
-| Attachments   | (mandatory) See section below for more details.                                                       | object |         |
-| CorrelationID | (mandatory) A user-defined reference number to help identify the order.  Does not need to be unique.  | string |         |
-| Preferences   | (mandatory) See section below for more details.                                                       | object |         |
-| Terms         | (mandatory) See section below for more details.                                                       | object |         |
+| Property      | Description                                                                                           | Type   |
+|---------------|-------------------------------------------------------------------------------------------------------|--------|
+| Attachments   | (mandatory) See section below for more details.                                                       | object |
+| CorrelationID | (mandatory) A user-defined reference number to help identify the order.  Does not need to be unique.  | string |
+| Preferences   | (mandatory) See section below for more details.                                                       | object |
+| Terms         | (mandatory) See section below for more details.                                                       | object |
 
 <div class="datatable-end"></div>
 
