@@ -91,14 +91,7 @@ curl -X POST "${url}"
 ```
 
 #### Header Properties
-<div class="datatable-begin"></div>
-
-| Property      | Value            | Required? |
-|-------------- |------------------|-----------|
-| Content-Type  | application/json | true      |
-| Accept        | application/json | false     |
-
-<div class="datatable-end"></div>
+{% include_relative api_includes/header_properties_json.md %}
 
 
 #### Request Data Properties
@@ -233,9 +226,15 @@ Example:
 }
 ```
 
+For a complete list of possible [Message](/api/order/messagedef/) 
+
+
+
+
+
 #### Error Codes 
 
-This section will continue to be updated as more information becomes available.  
+This section will continue to be updated (and examples added) as more information becomes available.  
 
 
 <div class="datatable-begin"></div>
