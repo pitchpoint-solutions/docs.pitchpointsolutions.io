@@ -91,25 +91,18 @@ curl -X POST "${url}"
 ```
 
 #### Header Properties
-<div class="datatable-begin"></div>
-
-| Property      | Value            | Required? |
-|-------------- |------------------|-----------|
-| Content-Type  | application/json | true      |
-| Accept        | application/json | false     |
-
-<div class="datatable-end"></div>
+{% include_relative api_includes/header_properties_json.md %}
 
 
 #### Request Data Properties
 <div class="datatable-begin"></div>
 
-| Property      | Description                                                                                           | Type   | Default |
-|---------------|-------------------------------------------------------------------------------------------------------|--------|---------|
-| Attachments   | (mandatory) See section below for more details.                                                       | object |         |
-| CorrelationID | (mandatory) A user-defined reference number to help identify the order.  Does not need to be unique.  | string |         |
-| Preferences   | (mandatory) See section below for more details.                                                       | object |         |
-| Terms         | (mandatory) See section below for more details.                                                       | object |         |
+| Property      | Description                                                                                           | Type   |
+|---------------|-------------------------------------------------------------------------------------------------------|--------|
+| Attachments   | (mandatory) See section below for more details.                                                       | object |
+| CorrelationID | (mandatory) A user-defined reference number to help identify the order.  Does not need to be unique.  | string |
+| Preferences   | (mandatory) See section below for more details.                                                       | object |
+| Terms         | (mandatory) See section below for more details.                                                       | object |
 
 <div class="datatable-end"></div>
 
@@ -232,3 +225,41 @@ Example:
   "(echoed input data)": ...,
 }
 ```
+
+For a complete list of possible [Message](/api/order/messagedef/) 
+
+
+
+
+
+#### Error Codes 
+
+This section will continue to be updated (and examples added) as more information becomes available.  
+
+
+<div class="datatable-begin"></div>
+
+| Code    | Description                                                                                                                                                                               | 
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
+| ACT0101 | Correct the borrower's last name then resubmit the order.                                                                                                                                 |
+| ACT0102 | Correct the business name then resubmit the order.                                                                                                                                        |
+| ACT0203 | If the SSN on the signed 8821 is correct, just edit the SSN on the order then resubmit. \nIf the SSN on the order is correct, have the authorized user sign a new 8821.                   |
+| ACT0204 | If the EIN (Employer ID Numbers) on signed 8821 is correct, just edit the EIN on the order then resubmit. \nIf the EIN on the order is correct, have the authorized user sign a new 8821. |
+| ACT0305 | Address or TIN (Tax Identification Number) incorrect. Please verify with borrower then resubmit.                                                                                          |
+| ACT0406 | Attach an 8821 and Consent Form, then resubmit.                                                                                                                                           |
+| ACT0407 | Attach an 8821 then resubmit.                                                                                                                                                             |
+| ACT0408 | Attach a Consent Form then resubmit.                                                                                                                                                      |
+| ACT0509 | Add tax year to 8821, obtain signature, then resubmit.                                                                                                                                    |
+| ACT0610 | Attach signed forms, then resubmit.                                                                                                                                                       |
+| ACT0611 | Attach signed 8821, then resubmit.                                                                                                                                                        |
+| ACT0612 | Attach signed Consent Form, then resubmit.                                                                                                                                                |
+| ACT0713 | Attach an 8821 then resubmit.                                                                                                                                                             |
+| ACT0814 | Change column (b) on 8821 to 1120, 1120S, or 1065, get signed, and resubmit                                                                                                               |
+| ACT0915 | Complete section 1 \"Taxpayer information\" on 8821, get signed, and resubmit                                                                                                             |
+| ACT0115 | request does not exist                                                                                                                                                                    |
+| ACT0116 | Borrower does not exist                                                                                                                                                                   |
+| ACT0117 | Invalid or blank TIN                                                                                                                                                                      |
+| ACT0118 | Invalid or blank first name                                                                                                                                                               |
+| ACT0119 | Invalid or blank last name                                                                                                                                                                |
+
+<div class="datatable-end"></div>
