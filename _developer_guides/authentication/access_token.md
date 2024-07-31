@@ -7,9 +7,15 @@ nav_order: 1
 
 Stable
 {: .label .label-green }
-## Obtaining Authentication Tokens
+# Obtaining Authentication Tokens
+{:.no_toc}
 
+* TOC 
+{: toc}
+
+## Overview
 Before you can access the system, you must obtain an access token for the pointservices platform.
+
 
 ### Step 1: Authenticate and Receive Tokens
 
@@ -36,6 +42,7 @@ Read the response to obtain the new `access_token`, `expires_in` and `refresh_to
 [Sign In With Password API Reference](/api/authentication/signinwithpassword)
 
 ### Example response:
+{:.no_toc}
 
 ```json
 {
