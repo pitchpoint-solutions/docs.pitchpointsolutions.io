@@ -19,7 +19,7 @@ Get the URL from your Pitchpoint Account Representative of where you should be s
 ```bash
 url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001"
 # use the `base64` program to encode the pdf file in base64 
-file=$( base64 test-pdf.pdf )
+file=$( base64 -i test-pdf.pdf )
 data='{
   "Attachments": {
     "Attachment": [
@@ -54,39 +54,39 @@ data='{
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
-          "Person": {
-            "DOB": "01/15/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "212-555-1234",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "Residences": {
-              "Residence": [
-                {
-                  "Address": {
-                    "AddressLine1": "12 Any St",
-                    "City": "New York",
-                    "PostalCode": "21200",
-                    "State": "NY"
-                  },
-                  "CurrentIndicator": true
-                }
-              ]
-            },
-            "SSN": "111223333"
-          }
+        
+        "Person": {
+          "DOB": "01/15/1970",
+          "FirstName": "Melvin",
+          "HomePhone": "212-555-1234",
+          "LastName": "Frost",
+          "MiddleName": "Antonio",
+          "Residences": {
+            "Residence": [
+              {
+                "Address": {
+                  "AddressLine1": "12 Any St",
+                  "City": "New York",
+                  "PostalCode": "21200",
+                  "State": "NY"
+                },
+                "CurrentIndicator": true
+              }
+            ]
+          },
+          "SSN": "111223333"
         }
       }
     ]
   }
 }'
 # Replace the place holder %%FILE_DATA%% with the actual base64 encoded bytes 
-data=$(echo "$data" | sed "s/%%FILE_DATA%%/$file/g")
+data=$(echo "$data" | sed "s#%%FILE_DATA%%#$file#g")
 
 curl -X POST "${url}"
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
+-H "Accept: application/json" 
 -d "${data}"
 ```
 
