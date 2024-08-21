@@ -74,7 +74,15 @@ data='{
               }
             ]
           },
-          "SSN": "111223333"
+          "SSN": "111223333",
+          "ConsentTokens":{
+            "ConsentToken": [
+              {
+               "Type":"ClearID",
+                "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
+              }
+            ]
+          }
         }
       }
     ]
@@ -159,6 +167,9 @@ curl -X POST "${url}"
 | City             | (mandatory) City of the residence of a person                                             | string  |
 | State            | (mandatory) State of the residence of a person.  2-character code indicating which state. | string  |
 | PostalCode       | (mandatory) 5 digit zip code of the residence.                                            | string  |
+|                  | (optional) ConsentTokens.ConsentToken                                                     |         |
+| Type             | (optional) Consent token type                                                             | string  |
+| Value            | (optional) Consent token value                                                            | string  |
 
 <div class="datatable-end"></div>
 
@@ -176,6 +187,9 @@ curl -X POST "${url}"
 | City         | (mandatory) City of the company address              | string       | 
 | State        | (mandatory) 2-character code of the company's state  | string       | 
 | PostalCode   | (mandatory) 5 digit zip code of the company address. | string       | 
+|              | (optional) ConsentTokens.ConsentToken                |   |
+| Type         | (optional) Consent token type                        | string  |
+| Value        | (optional) Consent token value                       | string        | 
 
 <div class="datatable-end"></div>
 

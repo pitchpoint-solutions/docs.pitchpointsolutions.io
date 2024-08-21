@@ -79,28 +79,35 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
-          "Person": {
-            "DOB": "01/15/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "212-555-1234",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "Residences": {
-              "Residence": [
-                {
-                  "Address": {
-                    "AddressLine1": "12 Any St",
-                    "City": "New York",
-                    "PostalCode": "21200",
-                    "State": "NY"
-                  },
-                  "CurrentIndicator": true
-                }
-              ]
-            },
-            "SSN": "111223333"
+        "Person": {
+          "DOB": "01/15/1970",
+          "FirstName": "Melvin",
+          "HomePhone": "212-555-1234",
+          "LastName": "Frost",
+          "MiddleName": "Antonio",
+          "Residences": {
+            "Residence": [
+              {
+                "Address": {
+                  "AddressLine1": "12 Any St",
+                  "City": "New York",
+                  "PostalCode": "21200",
+                  "State": "NY"
+                },
+                "CurrentIndicator": true
+              }
+            ]
+          },
+          "SSN": "111223333",
+          "ConsentTokens":{
+            "ConsentToken": [
+              {
+                "Type":"ClearID",
+                "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
+              }
+            ]
           }
+          
         }
       }
     ]
@@ -164,29 +171,37 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
-          "Person": {
-            "DOB": "01/15/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "212-555-1234",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "Residences": {
-              "Residence": [
-                {
-                  "Address": {
-                    "AddressLine1": "12 Any St",
-                    "City": "New York",
-                    "PostalCode": "21200",
-                    "State": "NY"
-                  },
-                  "CurrentIndicator": true
-                }
-              ]
-            },
-            "SSN": "111223333"
+        
+        "Person": {
+          "DOB": "01/15/1970",
+          "FirstName": "Melvin",
+          "HomePhone": "212-555-1234",
+          "LastName": "Frost",
+          "MiddleName": "Antonio",
+          "Residences": {
+            "Residence": [
+              {
+                "Address": {
+                  "AddressLine1": "12 Any St",
+                  "City": "New York",
+                  "PostalCode": "21200",
+                  "State": "NY"
+                },
+                "CurrentIndicator": true
+              }
+            ]
+          },
+          "SSN": "111223333",
+          "ConsentTokens":{
+            "ConsentToken": [
+              { 
+                "Type":"ClearID",
+                "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
+              }
+            ]
           }
         }
+        
       }
     ]
   },
@@ -305,7 +320,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
+        
           "Participant": {
             "Address": {
               "AddressLine1": "123 any st",
@@ -323,7 +338,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
               ]
             }
           }
-        }
+        
       }
     ]
   }
@@ -383,7 +398,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
+       
           "Participant": {
             "Address": {
               "AddressLine1": "123 any st",
@@ -401,7 +416,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
               ]
             }
           }
-        }
+        
       }
     ]
   },
@@ -451,8 +466,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
-          "Person": {
+           "Person": {
             "DOB": "01/15/1970",
             "FirstName": "Melvin",
             "HomePhone": "212-555-1212",
@@ -460,7 +474,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
             "MiddleName": "Antonio",
             "SSN": "111223333"
           }
-        }
+        
       }
     ]
   }
@@ -525,7 +539,6 @@ Check the `Messages.Message.Description` for more details on how to correct.
   "Terms": {
     "Term": [
       {
-        "personOrPropertyOrParticipant": {
           "Person": {
             "DOB": "01/28/1970",
             "FirstName": "Melvin",
@@ -535,7 +548,7 @@ Check the `Messages.Message.Description` for more details on how to correct.
             "SSN": "111223333"
           }
         }
-      }
+      
     ]
   },
   "TransactionID": "0000000000000000000"
