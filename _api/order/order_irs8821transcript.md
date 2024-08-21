@@ -78,6 +78,7 @@ data='{
           "ConsentTokens":{
             "ConsentToken": [
               {
+               "Type":"ClearID",
                 "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
               }
             ]

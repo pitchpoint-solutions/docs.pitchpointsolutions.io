@@ -102,6 +102,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
           "ConsentTokens":{
             "ConsentToken": [
               {
+                "Type":"ClearID",
                 "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
               }
             ]
@@ -193,7 +194,8 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
           "SSN": "111223333",
           "ConsentTokens":{
             "ConsentToken": [
-              {
+              { 
+                "Type":"ClearID",
                 "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
               }
             ]
