@@ -167,7 +167,7 @@ curl -X POST "${url}"
 | City             | (mandatory) City of the residence of a person                                             | string  |
 | State            | (mandatory) State of the residence of a person.  2-character code indicating which state. | string  |
 | PostalCode       | (mandatory) 5 digit zip code of the residence.                                            | string  |
-|                  | (optional) ConsentTokens.ConsentToken                                                     | string  |
+|                  | (optional) ConsentTokens.ConsentToken                                                     |         |
 | Type             | (optional) Consent token type                                                             | string  |
 | Value            | (optional) Consent token value                                                            | string  |
 
@@ -187,7 +187,7 @@ curl -X POST "${url}"
 | City         | (mandatory) City of the company address              | string       | 
 | State        | (mandatory) 2-character code of the company's state  | string       | 
 | PostalCode   | (mandatory) 5 digit zip code of the company address. | string       | 
-|              | (optional) ConsentTokens.ConsentToken                | string  |
+|              | (optional) ConsentTokens.ConsentToken                |   |
 | Type         | (optional) Consent token type                        | string  |
 | Value        | (optional) Consent token value                       | string        | 
 
