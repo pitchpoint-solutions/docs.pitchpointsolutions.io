@@ -17,7 +17,7 @@ Get the URL from your Pitchpoint Account Representative of where you should be s
 
 
 ```bash
-url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001"
+url="https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001"
 # use the `base64` program to encode the pdf file in base64 
 file=$( base64 -i test-pdf.pdf )
 data='{
