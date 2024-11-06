@@ -42,7 +42,7 @@ The following example orders a W-2 - Employee Earnings transcript for an individ
 
 
 ```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
+curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001 
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
@@ -283,7 +283,7 @@ jq -r '.Attachments.Attachment[] | select(.Classifier == "report") | .Document' 
 The following example demonstrates how to order a W-2 - Employee Earnings transcript for a company for the years 2023 and 2022.
 
 ```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001
+curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
@@ -429,7 +429,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 This would order a W-2 - Employee Earnings transcript for a Company for the years 2023, and 2022
 
 ```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/IRS8821Transcript/PDF-001 
+curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001 
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
