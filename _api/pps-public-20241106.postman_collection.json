@@ -1,0 +1,757 @@
+{
+	"info": {
+		"_postman_id": "acc33dc5-5ff9-49e2-a6ce-b7fdea9b7e1f",
+		"name": "pps-public",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13154693"
+	},
+	"item": [
+		{
+			"name": "Authentication and Authorization",
+			"item": [
+				{
+					"name": "Sign in With Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"pm.collectionVariables.set('pps_accesstoken', response.access_token); ",
+									"pm.collectionVariables.set('pps_refreshtoken', response.refresh_token); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{pps_username}}\",\n    \"password\": \"{{pps_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pps_api}}/user-management-services-ws/oauth2/002/signInWithPassword",
+							"host": [
+								"{{pps_api}}"
+							],
+							"path": [
+								"user-management-services-ws",
+								"oauth2",
+								"002",
+								"signInWithPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh ID Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"pm.collectionVariables.set('pps_accesstoken', response.access_token); ",
+									"pm.collectionVariables.set('pps_refreshtoken', response.refresh_token); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refresh_token\": \"{{pps_refreshtoken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pps_api}}/user-management-services-ws/oauth2/002/refreshIdToken",
+							"host": [
+								"{{pps_api}}"
+							],
+							"path": [
+								"user-management-services-ws",
+								"oauth2",
+								"002",
+								"refreshIdToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ordering",
+			"item": [
+				{
+					"name": "DetailedBLJ",
+					"item": [
+						{
+							"name": "DetailedBLJ",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{pps_accesstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"CorrelationID\": \"detailedblj-order\",\n    \"Terms\": {\n    \"Term\": [\n      {\n        \n        \"Person\": {\n          \"FirstName\": \"Janet\",\n          \"LastName\": \"Elahi\",\n          \"SSN\": \"111111111\"\n        }\n      }\n    ]\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/sami/DetailedBLJ/{{pps_detailedblj_model}}",
+									"host": [
+										"{{pps_api}}"
+									],
+									"path": [
+										"riskinsight-services-ws",
+										"resources",
+										"v1",
+										"sami",
+										"DetailedBLJ",
+										"{{pps_detailedblj_model}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "IRS8821Transcript",
+					"item": [
+						{
+							"name": "Individual with Multiple Years",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// use some outside program to convert your pdf file into base64.  ",
+											"// e.g. use the bash program: ",
+											"// base64 -i test-pdf.pdf ",
+											"const base64file = \"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0UG/9UvfVHOTamB8oFNJjXX5p3KqyLcinYh7FgljAx89SgxW7U5CiCT0+2diXtw56IYfoxH0cmBfovSTW8eUqWlz1ECLSEJsAcJTO4KyI5Q0Qb+R2kTfp3C0tb6LO4KyI5Q0AbRubpCKcVaNfQNYD2Ovw9jriPBW04rXQEzLQNicZsCN5iBSh9iLIBrFE6kVw4Ss4FCLO3WHayGm9XMMST/ZYqvMampkvsWXCnQEnHXzU3s6Q07LvLtnTyg5v8t6oPfsIOfS1r/YWEtP1Ct3Rt2VF9nY8JStM9oG6QvhnF+OR3vDhXsEZ5z2bg/xHnDWRjF6sUxxONgm/IeDbXCKwzlRGlGKp1QccjOiTOic0DnFwiC79VvPjVvPLfKjeO+4tb8IvjlgGigCK8Al4ApwFXgeWAeuA+LWE5ZVWFYT1fdHK86ZcKcVseuFWSF7EbuCq6QIUfHyqSa+lLRzBVZZ3DvPmyPxROtQcajDO1QcTh91cDZkRUjG8iGbHBzujuwOtYKwNKt3ddos0eljmcyxmVioe7ISnMp2+dL7gv7JTJeSrt5vgjXa/hb1a8KHP01QGJCxQgiCJE71OK6F/XQfzdIhtDCyAeJnQvaiUfEb655aPnNheXXl+NKBZfwPEv0bl5+s6AplbmRzdHJlYW0KZW5kb2JqCjEyIDAgb2JqCjw8IC9UaXRsZSAodGVzdC1wZGYpIC9Qcm9kdWNlciAobWFjT1MgVmVyc2lvbiAxNS4xIFwoQnVpbGQgMjRCODNcKSBRdWFydHogUERGQ29udGV4dCkKL0NyZWF0b3IgKFBhZ2VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjQxMTA2MjIwODQ0WjAwJzAwJykgL01vZERhdGUgKEQ6MjAyNDExMDYyMjA4NDRaMDAnMDAnKQo+PgplbmRvYmoKeHJlZgowIDEzCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDI0NiAwMDAwMCBuIAowMDAwMDAzMTk0IDAwMDAwIG4gCjAwMDAwMDAwMjIgMDAwMDAgbiAKMDAwMDAwMDM1MCAwMDAwMCBuIAowMDAwMDAzMTU5IDAwMDAwIG4gCjAwMDAwMDMzNjUgMDAwMDAgbiAKMDAwMDAwMzMyNiAwMDAwMCBuIAowMDAwMDAwNDQ3IDAwMDAwIG4gCjAwMDAwMDMyNzcgMDAwMDAgbiAKMDAwMDAwMzcyNiAwMDAwMCBuIAowMDAwMDAzOTkyIDAwMDAwIG4gCjAwMDAwMDY4MDIgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSAxMyAvUm9vdCA5IDAgUiAvSW5mbyAxMiAwIFIgL0lEIFsgPDFjN2JhZTQ1NWI5NzgyZDkwMzk0ZDdlNjNiMGRjNWQ0Pgo8MWM3YmFlNDU1Yjk3ODJkOTAzOTRkN2U2M2IwZGM1ZDQ+IF0gPj4Kc3RhcnR4cmVmCjY5OTkKJSVFT0YK\"; ",
+											"pm.collectionVariables.set('pps_base64_file', base64file);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.collectionVariables.set('pps_poll_ref', jsonData.Ref || '');"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{pps_accesstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"CorrelationID\": \"Individual-IRS8821-W2-multiple-years\",\n  \"Preferences\": {\n    \"Preference\": [\n      {\n        \"Key\": \"IRS8821TaxClassificationType\",\n        \"Value\": \"Individual\"\n      },\n      {\n        \"Key\": \"IRS8821TaxYearsRequested\",\n        \"Value\": \"2023,2022,2021\"\n      },\n      {\n        \"Key\": \"IRS8821HasIRSAccount\",\n        \"Value\": \"false\"\n      },\n      {\n        \"Key\": \"IRS8821FormRequested\",\n        \"Value\": \"W-2 - Employee Earnings\"\n      }\n    ]\n  },\n  \"Terms\": {\n    \"Term\": [\n      {\n        \n        \"Person\": {\n          \"DOB\": \"01/15/1970\",\n          \"FirstName\": \"Melvin\",\n          \"HomePhone\": \"212-555-1234\",\n          \"LastName\": \"Frost\",\n          \"MiddleName\": \"Antonio\",\n          \"Residences\": {\n            \"Residence\": [\n              {\n                \"Address\": {\n                  \"AddressLine1\": \"12 Any St\",\n                  \"City\": \"New York\",\n                  \"PostalCode\": \"21200\",\n                  \"State\": \"NY\"\n                },\n                \"CurrentIndicator\": true\n              }\n            ]\n          },\n          \"SSN\": \"111223333\",\n          \"ConsentTokens\":{\n            \"ConsentToken\": [\n              {\n               \"Type\":\"ClearID\",\n                \"Value\":\"7e2bb052-5fea-11ef-8e7e-0242ac110002\"\n              }\n            ]\n          }\n        }\n      }\n    ]\n  },\n  \"Attachments\": {\n    \"Attachment\": [\n      {\n        \"Classifier\": \"irs8821TranscriptAuthorizationConsentCombined\",\n        \"ContentType\": \"application/pdf\",\n        \"Document\": \"{{pps_base64_file}}\"\n      }\n    ]\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/{{pps_irs8821_model}}",
+									"host": [
+										"{{pps_api}}"
+									],
+									"path": [
+										"riskinsight-services-ws",
+										"resources",
+										"v1",
+										"sami",
+										"IRS8821Transcript",
+										"{{pps_irs8821_model}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "poll this url to get results",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{pps_accesstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{pps_poll_ref}}",
+									"host": [
+										"{{pps_poll_ref}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "SSAForm89ECBSV",
+					"item": [
+						{
+							"name": "signatureType = wet ink; EIN has already been configured, thus users do not need send",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// use some outside program to convert your pdf file into base64.  ",
+											"// e.g. use the bash program: ",
+											"// base64 -i test-pdf.pdf ",
+											"const base64file = \"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0UG/9UvfVHOTamB8oFNJjXX5p3KqyLcinYh7FgljAx89SgxW7U5CiCT0+2diXtw56IYfoxH0cmBfovSTW8eUqWlz1ECLSEJsAcJTO4KyI5Q0Qb+R2kTfp3C0tb6LO4KyI5Q0AbRubpCKcVaNfQNYD2Ovw9jriPBW04rXQEzLQNicZsCN5iBSh9iLIBrFE6kVw4Ss4FCLO3WHayGm9XMMST/ZYqvMampkvsWXCnQEnHXzU3s6Q07LvLtnTyg5v8t6oPfsIOfS1r/YWEtP1Ct3Rt2VF9nY8JStM9oG6QvhnF+OR3vDhXsEZ5z2bg/xHnDWRjF6sUxxONgm/IeDbXCKwzlRGlGKp1QccjOiTOic0DnFwiC79VvPjVvPLfKjeO+4tb8IvjlgGigCK8Al4ApwFXgeWAeuA+LWE5ZVWFYT1fdHK86ZcKcVseuFWSF7EbuCq6QIUfHyqSa+lLRzBVZZ3DvPmyPxROtQcajDO1QcTh91cDZkRUjG8iGbHBzujuwOtYKwNKt3ddos0eljmcyxmVioe7ISnMp2+dL7gv7JTJeSrt5vgjXa/hb1a8KHP01QGJCxQgiCJE71OK6F/XQfzdIhtDCyAeJnQvaiUfEb655aPnNheXXl+NKBZfwPEv0bl5+s6AplbmRzdHJlYW0KZW5kb2JqCjEyIDAgb2JqCjw8IC9UaXRsZSAodGVzdC1wZGYpIC9Qcm9kdWNlciAobWFjT1MgVmVyc2lvbiAxNS4xIFwoQnVpbGQgMjRCODNcKSBRdWFydHogUERGQ29udGV4dCkKL0NyZWF0b3IgKFBhZ2VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjQxMTA2MjIwODQ0WjAwJzAwJykgL01vZERhdGUgKEQ6MjAyNDExMDYyMjA4NDRaMDAnMDAnKQo+PgplbmRvYmoKeHJlZgowIDEzCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDI0NiAwMDAwMCBuIAowMDAwMDAzMTk0IDAwMDAwIG4gCjAwMDAwMDAwMjIgMDAwMDAgbiAKMDAwMDAwMDM1MCAwMDAwMCBuIAowMDAwMDAzMTU5IDAwMDAwIG4gCjAwMDAwMDMzNjUgMDAwMDAgbiAKMDAwMDAwMzMyNiAwMDAwMCBuIAowMDAwMDAwNDQ3IDAwMDAwIG4gCjAwMDAwMDMyNzcgMDAwMDAgbiAKMDAwMDAwMzcyNiAwMDAwMCBuIAowMDAwMDAzOTkyIDAwMDAwIG4gCjAwMDAwMDY4MDIgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSAxMyAvUm9vdCA5IDAgUiAvSW5mbyAxMiAwIFIgL0lEIFsgPDFjN2JhZTQ1NWI5NzgyZDkwMzk0ZDdlNjNiMGRjNWQ0Pgo8MWM3YmFlNDU1Yjk3ODJkOTAzOTRkN2U2M2IwZGM1ZDQ+IF0gPj4Kc3RhcnR4cmVmCjY5OTkKJSVFT0YK\"; ",
+											"pm.collectionVariables.set('pps_base64_file', base64file);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.collectionVariables.set('pps_poll_ref', jsonData.Ref || '');"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{pps_accesstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"CorrelationID\": \"no-ein-sent-already-configured-on-product\",\n  \"Preferences\": {\n    \"Preference\": [\n      {\n        \"Key\": \"SignatureType\",\n        \"Value\": \"w\"\n      }\n    ]\n  },\n  \"Terms\": {\n    \"Term\": [\n      {\n        \n        \"Person\": {\n          \"FirstName\": \"Homer\",\n          \"MiddleName\": \"Jay\",\n          \"LastName\": \"Simpson\",\n          \"DOB\": \"05/12/1956\",\n          \"SSN\": \"111223333\"\n        }\n      }\n    ]\n  },\n  \"Attachments\": {\n    \"Attachment\": [\n      {\n        \"Classifier\": \"ssaForm89ecbsv\",\n        \"ContentType\": \"application/pdf\",\n        \"Document\": \"{{pps_base64_file}}\"\n      }\n    ]\n  }\n}\n\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/sami/SSAForm89ECBSV/{{pps_ssaform89_model}}",
+									"host": [
+										"{{pps_api}}"
+									],
+									"path": [
+										"riskinsight-services-ws",
+										"resources",
+										"v1",
+										"sami",
+										"SSAForm89ECBSV",
+										"{{pps_ssaform89_model}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signatureType = electronic; EIN is sent as part of request",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// use some outside program to convert your pdf file into base64.  ",
+											"// e.g. use the bash program: ",
+											"// base64 -i test-pdf.pdf ",
+											"const base64file = \"JVBERi0xLjMKJcTl8uXrp/Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCAxNTIgPj4Kc3RyZWFtCngBXU7LCsIwELz3K+aolzQb26w9+jy3uOC5lLYiiVjz/2ASxYPMYQfmtQs6LNARlgy4MXiNuOKB8hAIQwBlhCE6kup/PpeZhstpV9ww5S67VdxYw2CDiitVaa5ha1JGb/i/PQ1rxPYlziRKKcakVUwUg8deQF/lc8SjFElfyYTVDpfeP92I9nhG28/jGnLHSeIn3RuXoTEACmVuZHN0cmVhbQplbmRvYmoKMSAwIG9iago8PCAvVHlwZSAvUGFnZSAvUGFyZW50IDIgMCBSIC9SZXNvdXJjZXMgNCAwIFIgL0NvbnRlbnRzIDMgMCBSIC9NZWRpYUJveCBbMCAwIDYxMiA3OTJdCj4+CmVuZG9iago0IDAgb2JqCjw8IC9Qcm9jU2V0IFsgL1BERiAvVGV4dCBdIC9Db2xvclNwYWNlIDw8IC9DczEgNSAwIFIgPj4gL0ZvbnQgPDwgL1RUMSA2IDAgUgo+PiA+PgplbmRvYmoKOCAwIG9iago8PCAvTiAzIC9BbHRlcm5hdGUgL0RldmljZVJHQiAvTGVuZ3RoIDI2MTIgL0ZpbHRlciAvRmxhdGVEZWNvZGUgPj4Kc3RyZWFtCngBnZZ3VFPZFofPvTe90BIiICX0GnoJINI7SBUEUYlJgFAChoQmdkQFRhQRKVZkVMABR4ciY0UUC4OCYtcJ8hBQxsFRREXl3YxrCe+tNfPemv3HWd/Z57fX2Wfvfde6AFD8ggTCdFgBgDShWBTu68FcEhPLxPcCGBABDlgBwOFmZgRH+EQC1Py9PZmZqEjGs/buLoBku9ssv1Amc9b/f5EiN0MkBgAKRdU2PH4mF+UClFOzxRky/wTK9JUpMoYxMhahCaKsIuPEr2z2p+Yru8mYlybkoRpZzhm8NJ6Mu1DemiXho4wEoVyYJeBno3wHZb1USZoA5fco09P4nEwAMBSZX8znJqFsiTJFFBnuifICAAiUxDm8cg6L+TlongB4pmfkigSJSWKmEdeYaeXoyGb68bNT+WIxK5TDTeGIeEzP9LQMjjAXgK9vlkUBJVltmWiR7a0c7e1Z1uZo+b/Z3x5+U/09yHr7VfEm7M+eQYyeWd9s7KwvvRYA9iRamx2zvpVVALRtBkDl4axP7yAA8gUAtN6c8x6GbF6SxOIMJwuL7OxscwGfay4r6Df7n4Jvyr+GOfeZy+77VjumFz+BI0kVM2VF5aanpktEzMwMDpfPZP33EP/jwDlpzcnDLJyfwBfxhehVUeiUCYSJaLuFPIFYkC5kCoR/1eF/GDYnBxl+nWsUaHVfAH2FOVC4SQfIbz0AQyMDJG4/egJ961sQMQrIvrxorZGvc48yev7n+h8LXIpu4UxBIlPm9gyPZHIloiwZo9+EbMECEpAHdKAKNIEuMAIsYA0cgDNwA94gAISASBADlgMuSAJpQASyQT7YAApBMdgBdoNqcADUgXrQBE6CNnAGXARXwA1wCwyAR0AKhsFLMAHegWkIgvAQFaJBqpAWpA+ZQtYQG1oIeUNBUDgUA8VDiZAQkkD50CaoGCqDqqFDUD30I3Qaughdg/qgB9AgNAb9AX2EEZgC02EN2AC2gNmwOxwIR8LL4ER4FZwHF8Db4Uq4Fj4Ot8IX4RvwACyFX8KTCEDICAPRRlgIG/FEQpBYJAERIWuRIqQCqUWakA6kG7mNSJFx5AMGh6FhmBgWxhnjh1mM4WJWYdZiSjDVmGOYVkwX5jZmEDOB+YKlYtWxplgnrD92CTYRm40txFZgj2BbsJexA9hh7DscDsfAGeIccH64GFwybjWuBLcP14y7gOvDDeEm8Xi8Kt4U74IPwXPwYnwhvgp/HH8e348fxr8nkAlaBGuCDyGWICRsJFQQGgjnCP2EEcI0UYGoT3QihhB5xFxiKbGO2EG8SRwmTpMUSYYkF1IkKZm0gVRJaiJdJj0mvSGTyTpkR3IYWUBeT64knyBfJQ+SP1CUKCYUT0ocRULZTjlKuUB5QHlDpVINqG7UWKqYup1aT71EfUp9L0eTM5fzl+PJrZOrkWuV65d7JU+U15d3l18unydfIX9K/qb8uAJRwUDBU4GjsFahRuG0wj2FSUWaopViiGKaYolig+I1xVElvJKBkrcST6lA6bDSJaUhGkLTpXnSuLRNtDraZdowHUc3pPvTk+nF9B/ovfQJZSVlW+Uo5RzlGuWzylIGwjBg+DNSGaWMk4y7jI/zNOa5z+PP2zavaV7/vCmV+SpuKnyVIpVmlQGVj6pMVW/VFNWdqm2qT9QwaiZqYWrZavvVLquNz6fPd57PnV80/+T8h+qwuol6uPpq9cPqPeqTGpoavhoZGlUalzTGNRmabprJmuWa5zTHtGhaC7UEWuVa57VeMJWZ7sxUZiWzizmhra7tpy3RPqTdqz2tY6izWGejTrPOE12SLls3Qbdct1N3Qk9LL1gvX69R76E+UZ+tn6S/R79bf8rA0CDaYItBm8GooYqhv2GeYaPhYyOqkavRKqNaozvGOGO2cYrxPuNbJrCJnUmSSY3JTVPY1N5UYLrPtM8Ma+ZoJjSrNbvHorDcWVmsRtagOcM8yHyjeZv5Kws9i1iLnRbdFl8s7SxTLessH1kpWQVYbbTqsPrD2sSaa11jfceGauNjs86m3ea1rakt33a/7X07ml2w3Ra7TrvP9g72Ivsm+zEHPYd4h70O99h0dii7hH3VEevo4bjO8YzjByd7J7HTSaffnVnOKc4NzqMLDBfwF9QtGHLRceG4HHKRLmQujF94cKHUVduV41rr+sxN143ndsRtxN3YPdn9uPsrD0sPkUeLx5Snk+cazwteiJevV5FXr7eS92Lvau+nPjo+iT6NPhO+dr6rfS/4Yf0C/Xb63fPX8Of61/tPBDgErAnoCqQERgRWBz4LMgkSBXUEw8EBwbuCHy/SXyRc1BYCQvxDdoU8CTUMXRX6cxguLDSsJux5uFV4fnh3BC1iRURDxLtIj8jSyEeLjRZLFndGyUfFRdVHTUV7RZdFS5dYLFmz5EaMWowgpj0WHxsVeyR2cqn30t1Lh+Ps4grj7i4zXJaz7NpyteWpy8+ukF/BWXEqHhsfHd8Q/4kTwqnlTK70X7l35QTXk7uH+5LnxivnjfFd+GX8kQSXhLKE0USXxF2JY0muSRVJ4wJPQbXgdbJf8oHkqZSQlKMpM6nRqc1phLT4tNNCJWGKsCtdMz0nvS/DNKMwQ7rKadXuVROiQNGRTChzWWa7mI7+TPVIjCSbJYNZC7Nqst5nR2WfylHMEeb05JrkbssdyfPJ+341ZjV3dWe+dv6G/ME17msOrYXWrlzbuU53XcG64fW+649tIG1I2fDLRsuNZRvfbore1FGgUbC+YGiz7+bGQrlCUeG9Lc5bDmzFbBVs7d1ms61q25ciXtH1YsviiuJPJdyS699ZfVf53cz2hO29pfal+3fgdgh33N3puvNYmWJZXtnQruBdreXM8qLyt7tX7L5WYVtxYA9pj2SPtDKosr1Kr2pH1afqpOqBGo+a5r3qe7ftndrH29e/321/0wGNA8UHPh4UHLx/yPdQa61BbcVh3OGsw8/rouq6v2d/X39E7Ujxkc9HhUelx8KPddU71Nc3qDeUNsKNksax43HHb/3g9UN7E6vpUDOjufgEOCE58eLH+B/vngw82XmKfarpJ/2f9rbQWopaodbc1om2pDZpe0x73+mA050dzh0tP5v/fPSM9pmas8pnS8+RzhWcmzmfd37yQsaF8YuJF4c6V3Q+urTk0p2usK7ey4GXr17xuXKp2737/FWXq2euOV07fZ19ve2G/Y3WHruell/sfmnpte9tvelws/2W462OvgV95/pd+y/e9rp95Y7/nRsDiwb67i6+e/9e3D3pfd790QepD14/zHo4/Wj9Y+zjoicKTyqeqj+t/dX412apvfTsoNdgz7OIZ4+GuEMv/5X5r0/DBc+pzytGtEbqR61Hz4z5jN16sfTF8MuMl9Pjhb8p/rb3ldGrn353+71nYsnE8GvR65k/St6ovjn61vZt52To5NN3ae+mp4req74/9oH9oftj9MeR6exP+E+Vn40/d3wJ/PJ4Jm1m5t/3hPP7CmVuZHN0cmVhbQplbmRvYmoKNSAwIG9iagpbIC9JQ0NCYXNlZCA4IDAgUiBdCmVuZG9iagoyIDAgb2JqCjw8IC9UeXBlIC9QYWdlcyAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ291bnQgMSAvS2lkcyBbIDEgMCBSIF0gPj4KZW5kb2JqCjkgMCBvYmoKPDwgL1R5cGUgL0NhdGFsb2cgL1BhZ2VzIDIgMCBSID4+CmVuZG9iago3IDAgb2JqClsgMSAwIFIgIC9YWVogMCA3OTIgMCBdCmVuZG9iago2IDAgb2JqCjw8IC9UeXBlIC9Gb250IC9TdWJ0eXBlIC9UcnVlVHlwZSAvQmFzZUZvbnQgL0FBQUFBQitIZWx2ZXRpY2FOZXVlIC9Gb250RGVzY3JpcHRvcgoxMCAwIFIgL0VuY29kaW5nIC9NYWNSb21hbkVuY29kaW5nIC9GaXJzdENoYXIgMzIgL0xhc3RDaGFyIDExMiAvV2lkdGhzIFsgMjc4CjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCA2NDggMCAwIDcwNAowIDU3NCAwIDAgMCAwIDAgMCAwIDAgMCA2NDggMCAwIDY0OCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDUzNyAwIDAgMCA1MzcKMCA1NzQgMCAwIDAgMCAyMjIgODUzIDAgMCA1OTMgXSA+PgplbmRvYmoKMTAgMCBvYmoKPDwgL1R5cGUgL0ZvbnREZXNjcmlwdG9yIC9Gb250TmFtZSAvQUFBQUFCK0hlbHZldGljYU5ldWUgL0ZsYWdzIDMyIC9Gb250QkJveApbLTk1MSAtNDgxIDE5ODcgMTA3N10gL0l0YWxpY0FuZ2xlIDAgL0FzY2VudCA5NTIgL0Rlc2NlbnQgLTIxMyAvQ2FwSGVpZ2h0CjcxNCAvU3RlbVYgOTUgL0xlYWRpbmcgMjggL1hIZWlnaHQgNTE3IC9TdGVtSCA4MCAvQXZnV2lkdGggNDQ3IC9NYXhXaWR0aCAyMjI1Ci9Gb250RmlsZTIgMTEgMCBSID4+CmVuZG9iagoxMSAwIG9iago8PCAvTGVuZ3RoMSA0NjgwIC9MZW5ndGggMjcyMiAvRmlsdGVyIC9GbGF0ZURlY29kZSA+PgpzdHJlYW0KeAGtWH1sW1cVP/faz3a+/Rx/xHXiPOf5O46dxPFXkrpJmqRJs3VJ2xS7W5albdoGWlqN0LWDoQq0aQ2C8c8mOvEHEgI2sSEPpOEEoVWaxOgEUv9BgxFNkwABQ0IT6pAYi8PvvueYditTQXP6e/fcc+8999zfPffcq64+/PllaqTLZKCR42eXzpP2M7Wj2Dh+YVXR6+w5lG0nz586W61fIzKGT525dFKvm24S1b97ennphF6nD1CmT0Oh19kASv/ps6sX9br0Z5QDZ84dr7abfoN6+9mli9X5aRN15bNLZ5f1/jYFZfj8uc+t6nX5DyiHzz+8XO3PCqjfq7fd8mWQm2gvcU2nf72EqjGsaUQ78PcvtRkXW4bfY7JB+EUv731IFPTW2z3yB9OVTvOrxhSqdVU72hhDebub2i0vof2y+VVh5bZfU5ns3WwDIzg5u9kroDdPGeqmTmpFx/ZuegUt+29XbZARf57uMjFl4rGVtvEy1aOCUUR28W+GjkKUtwepgUvUyF8nGc2xmTLVzRZeYuzrxTLbfrw8Th3r8Naw+GAPTMUUZWJlvMQeQoXHoIj6IBliymTJEJg8WFCLypqyNn1iTZlUTi+dKBkDWomG5bViQinRocIKvocLvtJI0VMTl4vFQdgxCjsYgu5rRVj4dNUCSk2V2EInKTajlAzB2cJcoXR53FMaGS96fD5lonRttlC6Nu7xFYvoZap5Co/F8nWfzfDZFEW7RbdyCDZgori2JmyixoO+0rW1Nc8aVqJpVF+ZUVWBlYo+hsBEmY3MFkTTiOrzCIXqU33wozgO23WxmUOFCXjiE57Uf4RSGr+F0oaao+jbCPcaNEqbPiFKm++G0pa7otRa8/Q2SmX4bBWU2u5MqfoxhNYYHrkDw5d1hi/fgeHW2xi2fzzDjprfcNIJbx0aw65PiOG2u2HYfVcM76p5ehvDHvi8SzDcXmN4xFOiWtCC4csfCln6rzH8/1LecQvl7CYlmRO578nt9/k1OsDzwJMaAtxNfg158tNbNGGYpxE+h7wpMp2e2RrJRC+grtDcR3Id1P/jT8/EBowy3mGkpOlMd2jZUZmrggVl3Y6S6qlBkxurmimaoov0Nmtkq9xisBkeNcaMk8a3pYvIvEli7Jf8F0jLZloWuRrpJYFcClisyDc3gMQ6OhpuQmtdh6NCqtskJNCJAvJewiOU9fliVSEJhURGoTBiAKjGAAkS7oCbvX3MJ/taZZ/MrlZ+xZLJyin+7NbT/OpWjr9GfPt9dP8G8rkBawhgDiMckYC6xAYsmckg7gGruE8whWzL9fZ5WLLVwJIZnyvJrl/ij/yg8s7SLIsfWKn8hYXYvZUfs+9spd94AzbFhXcAn2chN5ObHiuTB2YZtWhmGdbrAZybZTJvjkr0JuZ7B+ALox7Qa8YQM0WAHDANFIEV4BJwBbgKPA+sA9eBpgUSXltrXrdgMrGCFmtvX0ZO9nu5w95sVA0Q8zw1EFRf/PbY0ZzbE02le61b7xW/fDj8o+/O8mhg3/LI2ELe3yrxR7fS/YtfPfrCczAMa2I9KtZTR1iJCAdh3oxV8Btihz7Emgm8ig4mzN8qJ2VfSvwdWGRTlTK7wF/fSrN9s7+frfJ0DHYtuKavIO1oPOEqxWDBkwOwgidJ50kCT9IOTxJ4ksCTBJ4k8CSBJwk8SeBJAk8SeJLAkwSeJPAkgSfdaoPwuR5T1VV5qsNOE15lYlrSfe53OuymEIPzSWdao2xjbmZmrvKnxTfPnDt3hq0y096RkXHGjmAxfnb+xIlzgqfA9rv8OP8dXPraBnnx+hAmvTAfwXNCyBGsyAs06CuyY0X2nRXZsSK71jOHchooAivAJeAKcBV4HlgHrgNiRf3gR1gd2kQUILNo07gxpQmvHTGl2AWWjBvUrmbEgdeEWOBqV5ynVLuX6xERN6UG8pCd7K9HeWTfg5m+helYaPTg/MHRkDIwqoTvyalHE3OfGe47Ppus6j09g979i+yfQ/PZXe7kfem+0Yi71dYRD4T6Oxrt0dGe0cXdXldyLpeajHvs8q6IT020N06IeOLk336P13OZemmMPSDywU8pi6BpojZIUUguSGVyYV3SDXE0R2WsJ0tOIAikgUngCHASuABYFnCYHofwNMDBTBbJQEEeWRf7gOTgQr23KpWpD3b7cOSjmGO8lmcCIq0EyFLLM1wo8IKtKSxCYRGKDcQUpwDSQ5kCsN2OxAMXrkC4KioLcNoCoQ0IA1lgCigAp4GLgAV+BuBBJ3aRw0Zc2JBxxOKgIE4hIAPsAz4FnAIeAbS1PgHhGYAvbGBduicb1FfzafeN3r6ASe0KppqZtuHY40zekBqIY/9NZjVv0FKDbHcm+zOhZgnBoccDr3eGfCF1Ia3uiXu8fXt86p7edocvYk9PGea5f/jemDqR7TLbG1rWrAO5wXiH7PHbo8NBG28KRKMBa1cmFMuqNpPZ3ORua++ymSK53rGIrb4z21P5h7ddeq2xwVxnDyiODpvFpUZs/4kJA2KiHjt8/waiWz89doSyAz1EKIt8YAfYDXFQ8RhE2ZhA3LdU474FnXchUkTnXZAZzAhZJBO/GLApbgZ94S5VpyXjSwtCcDi8ICTNvl95gzuDKZ+SCrkOH26YSEfzYRtjX+GOzP0TqeKon3fm788XVtmANxV2uULpHyb72xO7uxKnC7nw1LGhoRNT4QI2wb+dYBWsJ0zD9LMN7JOeYOKaW7jpqm5xuJXFOrJISEYMy2rxJLSOG7gQTBjoBIJAGpgEjgAngQvAE8AzwPeAl4GfA03iJPwawh8BER0+zB3X7PoQ8QpiTRCSFxnDA8vCFQ/cMuOeFrIZcoRkTY4gewRk1aHGEUNaAkGMpDPJnSwSUjXWQiKhaDlEu2w4q8wy18G+vQ9k2zoGjwz2F51cDg5GHfGQh83z8O4Z/xdX/xbNdjXLgcFIOKtaZf9QjP12f3d38r6leGpxX7Snt6t7KtlRZ1dc0UG/9UvfVHOTamB8oFNJjXX5p3KqyLcinYh7FgljAx89SgxW7U5CiCT0+2diXtw56IYfoxH0cmBfovSTW8eUqWlz1ECLSEJsAcJTO4KyI5Q0Qb+R2kTfp3C0tb6LO4KyI5Q0AbRubpCKcVaNfQNYD2Ovw9jriPBW04rXQEzLQNicZsCN5iBSh9iLIBrFE6kVw4Ss4FCLO3WHayGm9XMMST/ZYqvMampkvsWXCnQEnHXzU3s6Q07LvLtnTyg5v8t6oPfsIOfS1r/YWEtP1Ct3Rt2VF9nY8JStM9oG6QvhnF+OR3vDhXsEZ5z2bg/xHnDWRjF6sUxxONgm/IeDbXCKwzlRGlGKp1QccjOiTOic0DnFwiC79VvPjVvPLfKjeO+4tb8IvjlgGigCK8Al4ApwFXgeWAeuA+LWE5ZVWFYT1fdHK86ZcKcVseuFWSF7EbuCq6QIUfHyqSa+lLRzBVZZ3DvPmyPxROtQcajDO1QcTh91cDZkRUjG8iGbHBzujuwOtYKwNKt3ddos0eljmcyxmVioe7ISnMp2+dL7gv7JTJeSrt5vgjXa/hb1a8KHP01QGJCxQgiCJE71OK6F/XQfzdIhtDCyAeJnQvaiUfEb655aPnNheXXl+NKBZfwPEv0bl5+s6AplbmRzdHJlYW0KZW5kb2JqCjEyIDAgb2JqCjw8IC9UaXRsZSAodGVzdC1wZGYpIC9Qcm9kdWNlciAobWFjT1MgVmVyc2lvbiAxNS4xIFwoQnVpbGQgMjRCODNcKSBRdWFydHogUERGQ29udGV4dCkKL0NyZWF0b3IgKFBhZ2VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjQxMTA2MjIwODQ0WjAwJzAwJykgL01vZERhdGUgKEQ6MjAyNDExMDYyMjA4NDRaMDAnMDAnKQo+PgplbmRvYmoKeHJlZgowIDEzCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDI0NiAwMDAwMCBuIAowMDAwMDAzMTk0IDAwMDAwIG4gCjAwMDAwMDAwMjIgMDAwMDAgbiAKMDAwMDAwMDM1MCAwMDAwMCBuIAowMDAwMDAzMTU5IDAwMDAwIG4gCjAwMDAwMDMzNjUgMDAwMDAgbiAKMDAwMDAwMzMyNiAwMDAwMCBuIAowMDAwMDAwNDQ3IDAwMDAwIG4gCjAwMDAwMDMyNzcgMDAwMDAgbiAKMDAwMDAwMzcyNiAwMDAwMCBuIAowMDAwMDAzOTkyIDAwMDAwIG4gCjAwMDAwMDY4MDIgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSAxMyAvUm9vdCA5IDAgUiAvSW5mbyAxMiAwIFIgL0lEIFsgPDFjN2JhZTQ1NWI5NzgyZDkwMzk0ZDdlNjNiMGRjNWQ0Pgo8MWM3YmFlNDU1Yjk3ODJkOTAzOTRkN2U2M2IwZGM1ZDQ+IF0gPj4Kc3RhcnR4cmVmCjY5OTkKJSVFT0YK\"; ",
+											"pm.collectionVariables.set('pps_base64_file', base64file);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.collectionVariables.set('pps_poll_ref', jsonData.Ref || '');"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{pps_accesstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"CorrelationID\": \"ein-sent\",\n  \"Preferences\": {\n    \"Preference\": [\n      {\n        \"Key\": \"SignatureType\",\n        \"Value\": \"e\"\n      },\n      {\n        \"Key\": \"EIN\",\n        \"Value\": \"111223333\"\n      }\n\n    ]\n  },\n  \"Terms\": {\n    \"Term\": [\n      {\n        \n        \"Person\": {\n          \"FirstName\": \"Homer\",\n          \"MiddleName\": \"Jay\",\n          \"LastName\": \"Simpson\",\n          \"DOB\": \"05/12/1956\",\n          \"SSN\": \"111223333\"\n        }\n      }\n    ]\n  },\n  \"Attachments\": {\n    \"Attachment\": [\n      {\n        \"Classifier\": \"ssaForm89ecbsv\",\n        \"ContentType\": \"application/pdf\",\n        \"Document\": \"{{pps_base64_file}}\"\n      }\n    ]\n  }\n}\n\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/sami/SSAForm89ECBSV/{{pps_ssaform89_model}}",
+									"host": [
+										"{{pps_api}}"
+									],
+									"path": [
+										"riskinsight-services-ws",
+										"resources",
+										"v1",
+										"sami",
+										"SSAForm89ECBSV",
+										"{{pps_ssaform89_model}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "poll this url to get results Copy",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{pps_accesstoken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{pps_poll_ref}}",
+									"host": [
+										"{{pps_poll_ref}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order Search",
+			"item": [
+				{
+					"name": "by ReferenceNumber, limiting the search between April 9 to April 10",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pps_accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"marker\": \"\",\n    \"filters\": {\n        \"Created\": {\n            \"ge\": \"2024-04-09T18:42:22.705Z\",\n            \"le\": \"2024-04-10T18:42:22.712Z\"\n        },\n        \"ReferenceNumber\": {\n            \"ge\": \"T\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/orders/query",
+							"host": [
+								"{{pps_api}}"
+							],
+							"path": [
+								"riskinsight-services-ws",
+								"resources",
+								"v1",
+								"orders",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by Owner, another way to specify the date format",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pps_accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filters\": {\n        \"OwnerUserDisplayName\": {\n            \"eq\": \"rockland5, olena\"\n        },\n        \"Created\": {\n            \"ge\": \"Wed, 5 Apr 2024 14:41:20 -0400\"\n        }\n    },\n    \"limit\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/orders/query",
+							"host": [
+								"{{pps_api}}"
+							],
+							"path": [
+								"riskinsight-services-ws",
+								"resources",
+								"v1",
+								"orders",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "empty search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.collectionVariables.set('pps_search_nextmarker', jsonData.nextMarker || '');"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pps_accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/orders/query",
+							"host": [
+								"{{pps_api}}"
+							],
+							"path": [
+								"riskinsight-services-ws",
+								"resources",
+								"v1",
+								"orders",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "empty search, starting from next-marker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.collectionVariables.set('pps_search_nextmarker', jsonData.nextMarker || '');"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{pps_accesstoken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"marker\": \"{{pps_search_nextmarker}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pps_api}}/riskinsight-services-ws/resources/v1/orders/query",
+							"host": [
+								"{{pps_api}}"
+							],
+							"path": [
+								"riskinsight-services-ws",
+								"resources",
+								"v1",
+								"orders",
+								"query"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pps_api",
+			"value": "https://api.pointservices.com",
+			"type": "string"
+		},
+		{
+			"key": "pps_username",
+			"value": "REPLACE_WITH_USERNAME",
+			"type": "string"
+		},
+		{
+			"key": "pps_password",
+			"value": "REPLACE_WITH_PASSWORD",
+			"type": "string"
+		},
+		{
+			"key": "pps_accesstoken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pps_refreshtoken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pps_search_nextmarker",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pps_base64_file",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pps_poll_ref",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pps_detailedblj_model",
+			"value": "PDF-001",
+			"type": "string"
+		},
+		{
+			"key": "pps_irs8821_model",
+			"value": "PDF-001",
+			"type": "string"
+		},
+		{
+			"key": "pps_ssaform89_model",
+			"value": "PDF-001",
+			"type": "string"
+		}
+	]
+}
