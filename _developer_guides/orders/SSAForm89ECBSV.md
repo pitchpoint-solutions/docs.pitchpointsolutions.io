@@ -1,12 +1,12 @@
 ---
-title: IRS8821 Transcripts
+title: SSAForm89 ECBSV
 layout: dev_guide
 parent: Orders
 nav_order: 2
 ---
-Beta
+Stable
 {: .label .label-yellow }
-# IRS 8821 Transcript Ordering Guide
+# SSAForm89 ECBSV Ordering Guide
 {:.no_toc}
 
 * TOC
@@ -15,7 +15,7 @@ Beta
 
 
 ## Overview
-Your system is ordering an IRS Transcript through the 8821 form.
+Your system is ordering a SSAForm89ECBSV through the form.
 
 
 {: .before_starting }
@@ -24,6 +24,12 @@ Get the URL from your Pitchpoint Account Representative of where you should be s
 
 ### Step 1: Authenticate and Receive Tokens
 Refer to the [Authentication Guide](/developer_guides/authentication/access_token/) for detailed steps on authentication and token retrieval.
+
+### Step 1-2: EIN Configuration
+If you so choose, you can let Pitchpoint know your EIN number and we can configure it on the product.  
+This way, you will not need to send it in on each request.  
+If you do not configure it, you will need to send it each time a new order is placed.  
+ 
 
 
 ### Step 2: Place an order
@@ -36,8 +42,8 @@ Include the access token in the `Authorization` header following the `Bearer` ke
 For further explanation of required mandatory fields and their meanings, refer to [IRS8821 Transcript API Reference](/api/order/order_irs8821transcript)
 
 
-#### Example Individual request
-The following example orders a W-2 - Employee Earnings transcript for an individual for the years 2023, 2022, and 2021.
+#### Example EIN has been pre-configured 
+The following example assumes that the EIN has already been configured on the product.  It orders a SSAForm89ECBSV for an individual.   
 
 
 
@@ -47,69 +53,35 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 -H "Content-Type: application/json" 
 -H "Accept: application/json" 
 -d '{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "IndividualIRS8821W2",
+  "CorrelationID": "no-ein-sent-already-configured-on-product",
   "Preferences": {
     "Preference": [
       {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Individual"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022,2021"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
+        "Key": "SignatureType",
+        "Value": "w"
       }
     ]
   },
   "Terms": {
     "Term": [
       {
+        
         "Person": {
-          "DOB": "01/15/1970",
-          "FirstName": "Melvin",
-          "HomePhone": "212-555-1234",
-          "LastName": "Frost",
-          "MiddleName": "Antonio",
-          "Residences": {
-            "Residence": [
-              {
-                "Address": {
-                  "AddressLine1": "12 Any St",
-                  "City": "New York",
-                  "PostalCode": "21200",
-                  "State": "NY"
-                },
-                "CurrentIndicator": true
-              }
-            ]
-          },
-          "SSN": "111223333",
-          "ConsentTokens":{
-            "ConsentToken": [
-              {
-                "Type":"ClearID",
-                "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
-              }
-            ]
-          }
-          
+          "FirstName": "Homer",
+          "MiddleName": "Jay",
+          "LastName": "Simpson",
+          "DOB": "05/12/1956",
+          "SSN": "111223333"
         }
+      }
+    ]
+  },
+  "Attachments": {
+    "Attachment": [
+      {
+        "Classifier": "ssaForm89ecbsv",
+        "ContentType": "application/pdf",
+        "Document": "#BASE64PDF"
       }
     ]
   }
@@ -125,16 +97,56 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
 
 ```json
 {
-  "Attachments": {
-    "Attachment": [
+  "TransactionID": "0000000000011038392",
+  "CorrelationID": "signatureType-wet-ink",
+  "Meta": null,
+  "Preferences": {
+    "Preference": [
       {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
+        "Key": "SignatureType",
+        "Value": "w"
       }
     ]
   },
-  "CorrelationID": "IndividualIRS8821W2",
+  "Terms": {
+    "Term": [
+      {
+        "Person": {
+          "FirstName": "Homer",
+          "MiddleName": "Jay",
+          "LastName": "Simpson",
+          "NameSuffix": null,
+          "SSN": "111223333",
+          "DOB": "05/12/1956",
+          "YOB": null,
+          "Gender": null,
+          "HomePhone": null,
+          "Residences": null,
+          "Employers": null,
+          "EthnicGroup": null,
+          "EyeColor": null,
+          "BankAccounts": null,
+          "Declarations": null,
+          "CreditReportIdentifier": null,
+          "CourtDetails": null,
+          "Email": null,
+          "ConsentTokens": null
+        }
+      }
+    ]
+  },
+  "Attachments": {
+    "Attachment": [
+      {
+        "Properties": null,
+        "Extension": null,
+        "Document": "#BASE64PDF",
+        "Classifier": "ssaForm89ecbsv",
+        "ContentDisposition": null,
+        "ContentType": "application/pdf"
+      }
+    ]
+  },
   "Messages": {
     "Message": [
       {
@@ -144,69 +156,11 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
       }
     ]
   },
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Individual"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022,2021"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
-      }
-    ]
-  },
-  "Ref": "https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000000000000",
   "Status": {
     "Code": "U001",
     "Description": "Unserviceable"
   },
-  "Terms": {
-    "Term": [
-      {
-        
-        "Person": {
-          "DOB": "01/15/1970",
-          "FirstName": "Melvin",
-          "HomePhone": "212-555-1234",
-          "LastName": "Frost",
-          "MiddleName": "Antonio",
-          "Residences": {
-            "Residence": [
-              {
-                "Address": {
-                  "AddressLine1": "12 Any St",
-                  "City": "New York",
-                  "PostalCode": "21200",
-                  "State": "NY"
-                },
-                "CurrentIndicator": true
-              }
-            ]
-          },
-          "SSN": "111223333",
-          "ConsentTokens":{
-            "ConsentToken": [
-              { 
-                "Type":"ClearID",
-                "Value":"7e2bb052-5fea-11ef-8e7e-0242ac110002"
-              }
-            ]
-          }
-        }
-        
-      }
-    ]
-  },
-  "TransactionID": "0000000000000000000"
+  "Ref": "https://qa-api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000011038392"
 }
 ```
 

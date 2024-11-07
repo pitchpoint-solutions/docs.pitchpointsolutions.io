@@ -43,7 +43,8 @@ The following example orders a DetailedBLJ report.  The configured product has b
 ```bash
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/DetailedBLJ/PDF-001 
 -H "Authorization: Bearer your_access_token_here" 
--H "Content-Type: application/xml" 
+-H "Content-Type: application/xml"
+-H "Accept: application/json" 
 -d '<Sami>
    <CorrelationID>SAMI_BLJ_1524141772750</CorrelationID>
    <Terms>
