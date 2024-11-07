@@ -2,7 +2,7 @@
 title: SSAForm89 ECBSV
 layout: dev_guide
 parent: Orders
-nav_order: 2
+nav_order: 30
 ---
 Stable
 {: .label .label-yellow }
@@ -43,7 +43,7 @@ For further explanation of required mandatory fields and their meanings, refer t
 
 
 #### Example EIN has been pre-configured 
-The following example assumes that the EIN has already been configured on the product.  It orders a SSAForm89ECBSV for an individual.   
+The following example assumes that the EIN has already been configured on the product.     
 
 
 
@@ -234,281 +234,54 @@ jq -r '.Attachments.Attachment[] | select(.Classifier == "report") | .Document' 
 ```` 
 
 ## Other Examples
-### Company Request
-The following example demonstrates how to order a W-2 - Employee Earnings transcript for a company for the years 2023 and 2022.
+### Sending the EIN on the request
+The following example demonstrates ordering by providing the EIN on the request. 
 
 ```bash
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
 -d '{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "CompanyIRS8821",
+  "CorrelationID": "ein-sent-as-part-of-request",
   "Preferences": {
     "Preference": [
       {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Company"
+        "Key": "SignatureType",
+        "Value": "e"
       },
       {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
+        "Key": "EIN",
+        "Value": "111223333"
       }
+
     ]
   },
   "Terms": {
     "Term": [
       {
         
-          "Participant": {
-            "Address": {
-              "AddressLine1": "123 any st",
-              "City": "New York",
-              "PostalCode": "21200",
-              "State": "NY"
-            },
-            "CompanyName": "Company!",
-            "Items": {
-              "ParticipantItem": [
-                {
-                  "Key": "TaxIdentificationEIN",
-                  "Value": "100001234"
-                }
-              ]
-            }
-          }
-        
-      }
-    ]
-  }
-}
-'
-```
-
-#### Example Response
-{:.no_toc}
-
-```json
-{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "CompanyIRS8821",
-  "Messages": {
-    "Message": [
-      {
-        "Category": "Info",
-        "Code": "I004",
-        "Description": "Evaluation was delayed."
-      }
-    ]
-  },
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Company"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
-      }
-    ]
-  },
-  "Ref": "https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000000134068",
-  "Status": {
-    "Code": "U001",
-    "Description": "Unserviceable"
-  },
-  "Terms": {
-    "Term": [
-      {
-       
-          "Participant": {
-            "Address": {
-              "AddressLine1": "123 any st",
-              "City": "New York",
-              "PostalCode": "21200",
-              "State": "NY"
-            },
-            "CompanyName": "Company!",
-            "Items": {
-              "ParticipantItem": [
-                {
-                  "Key": "TaxIdentificationEIN",
-                  "Value": "100001234"
-                }
-              ]
-            }
-          }
-        
-      }
-    ]
-  },
-  "TransactionID": "0000000000000134068"
-}
-
-```
-
-### Invalid Request
-This would order a W-2 - Employee Earnings transcript for a Company for the years 2023, and 2022
-
-```bash
-curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001 
--H "Authorization: Bearer your_access_token_here" 
--H "Content-Type: application/json" 
--d '{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "IndividualIRS8821W2",
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Individual"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022,2021"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
-      }
-    ]
-  },
-  "Terms": {
-    "Term": [
-      {
-           "Person": {
-            "DOB": "01/15/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "212-555-1212",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "SSN": "111223333"
-          }
-        
-      }
-    ]
-  }
-}
-
-'
-```
-
-
-#### Example Response
-{:.no_toc}
-
-In this response, we see that `Messagges.Message.Category = Fault` so we know that the submission of this order failed.  
-Check the `Messages.Message.Description` for more details on how to correct.  
-
-```json
-{
-  "Attachments": {
-    "Attachment": [
-      {
-        "Classifier": "irs8821TranscriptAuthorizationConsentCombined",
-        "ContentType": "application/pdf",
-        "Document": "#BASE64PDF"
-      }
-    ]
-  },
-  "CorrelationID": "IndividualIRS8821W2",
-  "Messages": {
-    "Message": [
-      {
-        "Category": "Fault",
-        "Code": "E004",
-        "Description": "/Inputs[1]/Input[1]/Loan[1]/Borrower[1]/Residence is required."
-      }
-    ]
-  },
-  "Preferences": {
-    "Preference": [
-      {
-        "Key": "IRS8821TaxClassificationType",
-        "Value": "Individual"
-      },
-      {
-        "Key": "IRS8821TaxYearsRequested",
-        "Value": "2023,2022,2021"
-      },
-      {
-        "Key": "IRS8821HasIRSAccount",
-        "Value": "false"
-      },
-      {
-        "Key": "IRS8821FormRequested",
-        "Value": "W-2 - Employee Earnings"
-      }
-    ]
-  },
-  "Ref": "https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000000000000",
-  "Status": {
-    "Code": "U001",
-    "Description": "Unserviceable"
-  },
-  "Terms": {
-    "Term": [
-      {
-          "Person": {
-            "DOB": "01/28/1970",
-            "FirstName": "Melvin",
-            "HomePhone": "601-602-2673",
-            "LastName": "Frost",
-            "MiddleName": "Antonio",
-            "SSN": "111223333"
-          }
+        "Person": {
+          "FirstName": "Homer",
+          "MiddleName": "Jay",
+          "LastName": "Simpson",
+          "DOB": "05/12/1956",
+          "SSN": "111223333"
         }
-      
+      }
     ]
   },
-  "TransactionID": "0000000000000000000"
+  "Attachments": {
+    "Attachment": [
+      {
+        "Classifier": "ssaForm89ecbsv",
+        "ContentType": "application/pdf",
+        "Document": "{{pps_base64_file}}"
+      }
+    ]
+  }
 }
-
+'
 ```
+
 
 

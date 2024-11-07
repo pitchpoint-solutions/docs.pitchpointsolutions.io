@@ -2,7 +2,7 @@
 title: DetailedBLJ
 layout: dev_guide
 parent: Orders
-nav_order: 2
+nav_order: 5
 ---
 Stable
 {: .label .label-green }

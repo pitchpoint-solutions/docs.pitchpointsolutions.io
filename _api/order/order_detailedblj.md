@@ -1,7 +1,7 @@
 ---
 title: DetailedBLJ
 layout: api_ref
-nav_order: 3
+nav_order: 5
 parent: Order
 datatable: true
 ---
