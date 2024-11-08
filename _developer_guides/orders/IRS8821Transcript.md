@@ -2,7 +2,7 @@
 title: IRS8821 Transcripts
 layout: dev_guide
 parent: Orders
-nav_order: 2
+nav_order: 10
 ---
 Beta
 {: .label .label-yellow }
@@ -45,6 +45,7 @@ The following example orders a W-2 - Employee Earnings transcript for an individ
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/IRS8821Transcript/PDF-001 
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/json" 
+-H "Accept: application/json" 
 -d '{
   "Attachments": {
     "Attachment": [
