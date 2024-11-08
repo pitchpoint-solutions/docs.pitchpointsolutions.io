@@ -8,6 +8,9 @@ nav_order: 1
 
 Here, you'll find comprehensive guides and documentation to help you start working with PointServices platform as quickly as possible.
 
+## Postman Collection 
+Download our [postman collection](/developer_guides/postman/index) as a quick way to get started.  
+
 ## Authentication
 Before you can access the system, you must obtain an access token for the pointservices platform.
 - [Authentication](/developer_guides/authentication/access_token): Obtaining An Access Token
