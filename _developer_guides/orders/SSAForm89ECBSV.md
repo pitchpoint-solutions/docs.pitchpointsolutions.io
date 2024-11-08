@@ -160,7 +160,7 @@ curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/
     "Code": "U001",
     "Description": "Unserviceable"
   },
-  "Ref": "https://qa-api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000011038392"
+  "Ref": "https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000011038392"
 }
 ```
 

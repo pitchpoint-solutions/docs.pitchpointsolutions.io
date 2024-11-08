@@ -116,24 +116,13 @@ curl -X POST "${url}"
 ##### Terms.Term.personOrPropertyOrParticipant.Person
 <div class="datatable-begin"></div>
 
-| Property         | Description                                                                               | Type    |
-|------------------|-------------------------------------------------------------------------------------------|---------|
-| DOB              | (optional) Date of Birth -- in the `MM/DD/YYYY` format                                    | string  |
-| FirstName        | (mandatory) First name of the person                                                      | string  |
-| MiddleName       | (optional) Middle name of the person                                                      | string  |
-| LastName         | (mandatory) Last name of the person                                                       | string  |
-| HomePhone        | (optional) Home phone number                                                              | string  |
-| SSN              | (mandatory) Social Security Number of the person                                          | string  |
-|                  | (mandatory) Residences.Residence                                                          |         |
-| CurrentIndicator | (mandatory) Indicates whether the address is the current place of residence.              | boolean |
-|                  | (mandatory) Residences.Residence.Address                                                  |         |
-| AddressLine1     | (mandatory) Line1 of the residence of a person                                            | string  |
-| City             | (mandatory) City of the residence of a person                                             | string  |
-| State            | (mandatory) State of the residence of a person.  2-character code indicating which state. | string  |
-| PostalCode       | (mandatory) 5 digit zip code of the residence.                                            | string  |
-|                  | (optional) ConsentTokens.ConsentToken                                                     |         |
-| Type             | (optional) Consent token type                                                             | string  |
-| Value            | (optional) Consent token value                                                            | string  |
+| Property         | Description                                             | Type    |
+|------------------|---------------------------------------------------------|---------|
+| DOB              | (mandatory) Date of Birth -- in the `MM/DD/YYYY` format | string  |
+| FirstName        | (mandatory) First name of the person                    | string  |
+| MiddleName       | (optional) Middle name of the person                    | string  |
+| LastName         | (mandatory) Last name of the person                     | string  |
+| SSN              | (mandatory) Social Security Number of the person        | string  |
 
 <div class="datatable-end"></div>
 

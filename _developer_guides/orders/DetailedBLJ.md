@@ -245,7 +245,7 @@ Check the `Messages.Message.Description` for more details on how to correct.
         <Code>U001</Code>
         <Description>Unserviceable</Description>
     </Status>
-    <Ref>https://qa-api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000010129045</Ref>
+    <Ref>https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/0000000000010129045</Ref>
 </Sami>
 
 ```
