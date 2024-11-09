@@ -172,3 +172,12 @@ The deployment GitHub Actions workflow is heavily based on GitHub's mixed-party 
 [MIT License]: https://en.wikipedia.org/wiki/MIT_License
 [starter workflows]: https://github.com/actions/starter-workflows/blob/main/pages/jekyll.yml
 [actions/starter-workflows]: https://github.com/actions/starter-workflows/blob/main/LICENSE
+
+----
+
+# zips 
+
+```bash 
+rm pps-*.zip
+zip pps-public.postman_collection.zip pps-public-20241106.postman_collection.json
+```
