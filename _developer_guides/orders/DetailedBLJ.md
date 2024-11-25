@@ -44,7 +44,7 @@ The following example orders a DetailedBLJ report.  The configured product has b
 curl -X POST https://api.pointservices.com/riskinsight-services-ws/resources/v1/sami/DetailedBLJ/PDF-001 
 -H "Authorization: Bearer your_access_token_here" 
 -H "Content-Type: application/xml"
--H "Accept: application/json" 
+-H "Accept: application/xml" 
 -d '<Sami>
    <CorrelationID>SAMI_BLJ_1524141772750</CorrelationID>
    <Terms>
