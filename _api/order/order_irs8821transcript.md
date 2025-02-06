@@ -242,7 +242,7 @@ Example:
 }
 ```
 
-For a complete list of possible [Message](/api/order/messagedef/) 
+For a complete list of possible [Message](/api/order/enums/messagedef/) 
 
 
 

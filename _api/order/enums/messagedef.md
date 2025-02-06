@@ -2,9 +2,10 @@
 title: Message
 layout: api_ref
 nav_order: 89
-parent: Order
+parent: Enums
 datatable: true
 ---
+
 #### Result Messages
 
 List of Message codes.   
