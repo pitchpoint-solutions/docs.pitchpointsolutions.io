@@ -5,8 +5,6 @@ nav_order: 89
 parent: Order
 datatable: true
 ---
-Beta
-{: .label .label-yellow }
 #### Result Messages
 
 List of Message codes.   
